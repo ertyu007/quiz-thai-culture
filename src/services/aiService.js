@@ -63,7 +63,6 @@ export const generateNewQuestion = async (category) => {
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0].message.content;
     
     // ประมวลผลคำตอบจาก AI เพื่อสร้าง object คำถาม
     // ในโปรเจคจริง ควรใช้การประมวลผลที่ซับซ้อนกว่านี้
@@ -126,7 +125,6 @@ export const getAIAnalysis = async (results) => {
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0].message.content;
     
     // ประมวลผลคำตอบจาก AI
     // ในโปรเจคจริง ควรใช้การประมวลผลที่ซับซ้อนกว่านี้
