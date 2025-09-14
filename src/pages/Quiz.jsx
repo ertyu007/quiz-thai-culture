@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { thaiCultureQuestions } from '../data/questions';
-import { getAIExplanation } from '../services/aiService';
+import { getAIExplanation, generateNewQuestion } from '../services/aiService';
 import QuestionCard from '../components/QuestionCard';
 import ResultCard from '../components/ResultCard';
 
@@ -13,10 +13,11 @@ const Quiz = () => {
   const [showResult, setShowResult] = useState(false);
   const [explanation, setExplanation] = useState('');
   const [loading, setLoading] = useState(false);
+  const [generatingQuestion, setGeneratingQuestion] = useState(false);
 
   useEffect(() => {
-    // ในโปรเจคจริง คุณอาจดึงคำถามจาก API หรือ AI
-    setQuestions(thaiCultureQuestions.slice(0, 5));
+    // เริ่มต้นด้วยคำถามพื้นฐาน
+    setQuestions(thaiCultureQuestions.slice(0, 3));
   }, []);
 
   const handleAnswer = async (selectedOption) => {
@@ -26,7 +27,8 @@ const Quiz = () => {
     const newUserAnswer = {
       questionId: currentQuestion.id,
       selectedOption,
-      isCorrect
+      isCorrect,
+      category: currentQuestion.category
     };
     
     setUserAnswers([...userAnswers, newUserAnswer]);
@@ -49,14 +51,31 @@ const Quiz = () => {
     setShowResult(true);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setShowResult(false);
       setExplanation('');
     } else {
-      // ส่งผลลัพธ์ไปหน้า Result
+      // เมื่อทำคำถามสุดท้ายแล้ว ให้ไปหน้าผลลัพธ์
       navigate('/result', { state: { userAnswers, questions } });
+    }
+  };
+
+  // ฟังก์ชันสำหรับสร้างคำถามใหม่โดย AI
+  const handleGenerateQuestion = async () => {
+    setGeneratingQuestion(true);
+    try {
+      // สุ่มหมวดคำถาม
+      const categories = ["ศิลปะ", "ประเพณี", "อาหาร", "ภาษา", "สถานที่"];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      
+      const newQuestion = await generateNewQuestion(randomCategory);
+      setQuestions([...questions, newQuestion]);
+    } catch (error) {
+      console.error('Error generating question:', error);
+    } finally {
+      setGeneratingQuestion(false);
     }
   };
 
@@ -102,6 +121,19 @@ const Quiz = () => {
           loading={loading}
         />
       )}
+
+      {/* ปุ่มสำหรับสร้างคำถามใหม่โดย AI */}
+      <div className="text-center mt-8">
+        <button
+          onClick={handleGenerateQuestion}
+          disabled={generatingQuestion}
+          className={`inline-block bg-thai-orange text-white font-bold py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors ${
+            generatingQuestion ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          {generatingQuestion ? 'กำลังสร้างคำถาม...' : 'สร้างคำถามใหม่โดย AI'}
+        </button>
+      </div>
     </div>
   );
 };
