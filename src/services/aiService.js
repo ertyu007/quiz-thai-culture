@@ -21,7 +21,7 @@ export const getAIExplanation = async (question, userAnswer, correctAnswer) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
         messages: [
           {
             role: "system",
@@ -60,7 +60,7 @@ export const generateNewQuestion = async (category) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
         messages: [
           {
             role: "system",
@@ -127,7 +127,7 @@ export const getAIAnalysis = async (results) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
         messages: [
           {
             role: "system",
@@ -178,7 +178,7 @@ export const askAITeacher = async (question) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
         messages: [
           {
             role: "system",
