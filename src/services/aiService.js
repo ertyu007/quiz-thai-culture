@@ -62,7 +62,7 @@ export const generateNewQuestion = async (category) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    // const data = await response.json();
     
     // ประมวลผลคำตอบจาก AI เพื่อสร้าง object คำถาม
     // ในโปรเจคจริง ควรใช้การประมวลผลที่ซับซ้อนกว่านี้
@@ -124,7 +124,7 @@ export const getAIAnalysis = async (results) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
+    // const data = await response.json();
     
     // ประมวลผลคำตอบจาก AI
     // ในโปรเจคจริง ควรใช้การประมวลผลที่ซับซ้อนกว่านี้
