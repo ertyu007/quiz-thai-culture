@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { thaiCultureQuestions } from '../data/questions';
-import { getAIExplanation, generateNewQuestion } from '../services/aiService';
+import { getAIExplanation } from '../services/aiService';
 import QuestionCard from '../components/QuestionCard';
 import ResultCard from '../components/ResultCard';
 
@@ -19,7 +19,7 @@ const Quiz = () => {
     setQuestions(thaiCultureQuestions.slice(0, 5));
   }, []);
 
-  const handleAnswer = (selectedOption) => {
+  const handleAnswer = async (selectedOption) => {
     const currentQuestion = questions[currentQuestionIndex];
     const isCorrect = selectedOption === currentQuestion.correctAnswer;
     
@@ -33,11 +33,18 @@ const Quiz = () => {
     
     // ขอคำอธิบายจาก AI
     setLoading(true);
-    getAIExplanation(currentQuestion, selectedOption, currentQuestion.correctAnswer)
-      .then(aiExplanation => {
-        setExplanation(aiExplanation);
-        setLoading(false);
-      });
+    try {
+      const aiExplanation = await getAIExplanation(
+        currentQuestion, 
+        selectedOption, 
+        currentQuestion.correctAnswer
+      );
+      setExplanation(aiExplanation);
+    } catch (error) {
+      setExplanation(`คำตอบที่ถูกต้องคือ ${currentQuestion.correctAnswer} เพราะ ${currentQuestion.explanation}`);
+    } finally {
+      setLoading(false);
+    }
     
     setShowResult(true);
   };

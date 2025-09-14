@@ -15,6 +15,16 @@ const Result = () => {
         .then(result => {
           setAnalysis(result);
           setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error getting AI analysis:', error);
+          setAnalysis({
+            summary: "ไม่สามารถวิเคราะห์ผลได้ในขณะนี้",
+            strengths: [],
+            weaknesses: [],
+            recommendations: []
+          });
+          setLoading(false);
         });
     } else {
       setLoading(false);

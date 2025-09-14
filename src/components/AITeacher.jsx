@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
+import { askAITeacher } from '../services/aiService';
 
-const AITeacher = ({ onAsk }) => {
+const AITeacher = () => {
   const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (question.trim() && !loading) {
       setLoading(true);
-      onAsk(question).then(() => {
+      setAnswer('');
+      try {
+        const aiAnswer = await askAITeacher(question);
+        setAnswer(aiAnswer);
+      } catch (error) {
+        setAnswer('ขออภัย ไม่สามารถตอบคำถามได้ในขณะนี้');
+      } finally {
         setLoading(false);
-        setQuestion('');
-      });
+      }
     }
   };
 
@@ -47,6 +54,13 @@ const AITeacher = ({ onAsk }) => {
       <div className="mt-4 text-sm text-gray-500">
         ตัวอย่าง: "วัดพระแก้วอยู่ที่ไหน?", "อาหารไทยมีกี่ประเภท?", "อธิบายประเพณีสงกรานต์"
       </div>
+      
+      {answer && (
+        <div className="mt-6 bg-blue-50 rounded-lg p-4">
+          <h3 className="font-semibold text-gray-700 mb-2">คำตอบจาก AI:</h3>
+          <p className="text-gray-800 whitespace-pre-wrap">{answer}</p>
+        </div>
+      )}
     </div>
   );
 };
