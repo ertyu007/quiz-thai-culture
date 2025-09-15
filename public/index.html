@@ -1,30 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
   <head>
     <meta charset="utf-8" />
+    <!-- Favicon -->
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!-- สำหรับอุปกรณ์ Apple -->
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    
+    <!-- Meta Tags สำหรับ SEO และ Social Sharing -->
+    <title>นักเรียนไทยย้อนยุค - เกมผจญภัยวัฒนธรรมไทย</title>
+    <meta name="description" content="เกมผจญภัยในสมัยโบราณของไทย พร้อม AI ที่จะเล่าเรื่องราวและสอนวัฒนธรรมไทยให้คุณ ผ่านการตัดสินใจและเรียนรู้">
+    <meta name="keywords" content="เกมไทย, วัฒนธรรมไทย, ประเพณีไทย, สงกรานต์, นักเรียนไทย, ผจญภัย, AI, เกมการศึกษา">
+    <meta name="author" content="ชื่อของคุณหรือทีมพัฒนา">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://game-quiz-ai.netlify.app/"> <!-- แก้เป็น URL จริงของคุณ -->
+    <meta property="og:title" content="นักเรียนไทยย้อนยุค - เกมผจญภัยวัฒนธรรมไทย">
+    <meta property="og:description" content="เกมผจญภัยในสมัยโบราณของไทย พร้อม AI ที่จะเล่าเรื่องราวและสอนวัฒนธรรมไทยให้คุณ ผ่านการตัดสินใจและเรียนรู้">
+    <meta property="og:image" content="%PUBLIC_URL%/logo512.png"> <!-- ใส่ภาพ preview สำหรับ social -->
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://game-quiz-ai.netlify.app/"> <!-- แก้เป็น URL จริงของคุณ -->
+    <meta property="twitter:title" content="นักเรียนไทยย้อนยุค - เกมผจญภัยวัฒนธรรมไทย">
+    <meta property="twitter:description" content="เกมผจญภัยในสมัยโบราณของไทย พร้อม AI ที่จะเล่าเรื่องราวและสอนวัฒนธรรมไทยให้คุณ ผ่านการตัดสินใจและเรียนรู้">
+    <meta property="twitter:image" content="%PUBLIC_URL%/logo512.png"> <!-- ใส่ภาพ preview สำหรับ social -->
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- Viewport และ Theme Color -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#A51931" /> <!-- สีแดงไทย -->
+
+    <!-- ลิงก์ฟอนต์ (ถ้าใช้ Google Fonts) -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Inline CSS สำหรับ loading state เบื้องต้น (optional) -->
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Prompt', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        background-color: #f8f9fa; /* สีพื้นหลังอ่อน */
+      }
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      /* คุณสามารถเพิ่ม CSS สำหรับ loading spinner ได้ที่นี่ */
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
