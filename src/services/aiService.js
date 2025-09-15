@@ -4,13 +4,13 @@ const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const getApiKey = () => {
   const apiKey = process.env.REACT_APP_GROQ_API_KEY;
   if (!apiKey) {
-    throw new Error('API Key ไม่ได้ตั้งค่า กรุณาตรวจสอบ Environment Variables');
+    throw new Error('API Key ไม่ได้ตั้งค่า');
   }
   return apiKey;
 };
 
-// ฟังก์ชันสำหรับอธิบายคำตอบโดย AI
-export const getAIExplanation = async (question, userAnswer, correctAnswer) => {
+// ฟังก์ชันสำหรับสร้างเนื้อเรื่องเริ่มต้น
+export const initializeStory = async (playerName) => {
   try {
     const apiKey = getApiKey();
     
@@ -21,121 +21,15 @@ export const getAIExplanation = async (question, userAnswer, correctAnswer) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
+        model: "llama3-8b-8192",
         messages: [
           {
             role: "system",
-            content: "คุณเป็นครูสอนวัฒนธรรมไทย ตอบคำถามอย่างกระชับ เข้าใจง่าย และเป็นประโยชน์"
+            content: "คุณเป็นนักเขียนเนื้อเรื่องผจญภัยในสมัยโบราณของไทย สร้างเนื้อเรื่องที่มีตัวเลือก 2-3 ตัวเลือก ตอบเป็น JSON ตามรูปแบบที่กำหนด"
           },
           {
             role: "user",
-            content: `คำถาม: ${question.question}\nคำตอบของผู้เล่น: ${userAnswer}\nคำตอบที่ถูกต้อง: ${correctAnswer}\n\nกรุณาอธิบายคำตอบที่ถูกต้องอย่างกระชับ`
-          }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-    }
-
-    const result = await response.json();
-    return result.choices[0].message.content;
-  } catch (error) {
-    console.error('Error getting AI explanation:', error);
-    return `คำตอบที่ถูกต้องคือ ${correctAnswer} เพราะ ${question.explanation}`;
-  }
-};
-
-// ฟังก์ชันสำหรับสร้างคำถามใหม่โดย AI
-export const generateNewQuestion = async (category) => {
-  try {
-    const apiKey = getApiKey();
-    
-    const response = await fetch(GROQ_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
-        messages: [
-          {
-            role: "system",
-            content: "คุณเป็นผู้เชี่ยวชาญด้านวัฒนธรรมไทย สร้างคำถามแบบปรนัย 4 ตัวเลือกเกี่ยวกับวัฒนธรรมไทย ตอบเป็น JSON ตามรูปแบบที่กำหนด"
-          },
-          {
-            role: "user",
-            content: `สร้างคำถามแบบปรนัย 4 ตัวเลือกเกี่ยวกับ ${category} ของไทย พร้อมคำตอบที่ถูกต้องและคำอธิบาย ตอบเป็น JSON ตามรูปแบบนี้:\n{\n  "question": "คำถาม",\n  "options": ["A. ตัวเลือก 1", "B. ตัวเลือก 2", "C. ตัวเลือก 3", "D. ตัวเลือก 4"],\n  "correctAnswer": "A",\n  "explanation": "คำอธิบาย"\n}`
-          }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-    }
-
-    const result = await response.json();
-    const aiResponse = result.choices[0].message.content;
-    
-    // แยก JSON จากคำตอบของ AI
-    const jsonStart = aiResponse.indexOf('{');
-    const jsonEnd = aiResponse.lastIndexOf('}') + 1;
-    const jsonString = aiResponse.substring(jsonStart, jsonEnd);
-    
-    const questionData = JSON.parse(jsonString);
-    
-    return {
-      id: Date.now(),
-      category: category,
-      question: questionData.question,
-      options: questionData.options,
-      correctAnswer: questionData.correctAnswer,
-      explanation: questionData.explanation
-    };
-  } catch (error) {
-    console.error('Error generating new question:', error);
-    return {
-      id: Date.now(),
-      category: category,
-      question: `คำถามเกี่ยวกับ ${category} (สร้างโดย AI)`,
-      options: [
-        "A. ตัวเลือกที่ 1",
-        "B. ตัวเลือกที่ 2",
-        "C. ตัวเลือกที่ 3",
-        "D. ตัวเลือกที่ 4"
-      ],
-      correctAnswer: "A",
-      explanation: "นี่คือคำถามสำรองเมื่อระบบ AI ไม่สามารถสร้างคำถามได้"
-    };
-  }
-};
-
-// ฟังก์ชันสำหรับวิเคราะห์ผลการสอบโดย AI
-export const getAIAnalysis = async (results) => {
-  try {
-    const apiKey = getApiKey();
-    
-    const response = await fetch(GROQ_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
-        messages: [
-          {
-            role: "system",
-            content: "คุณเป็นผู้เชี่ยวชาญด้านการศึกษา วิเคราะห์ผลการทดสอบและให้คำแนะนำอย่างละเอียด ตอบเป็น JSON ตามรูปแบบที่กำหนด"
-          },
-          {
-            role: "user",
-            content: `ผลการทดสอบ: ${JSON.stringify(results)}\n\nกรุณาวิเคราะห์ผลการทดสอบ สรุปจุดแข็ง จุดอ่อน และคำแนะนำในการพัฒนา ตอบเป็น JSON ตามรูปแบบนี้:\n{\n  "summary": "สรุปผลการทดสอบ",\n  "strengths": ["จุดแข็ง 1", "จุดแข็ง 2"],\n  "weaknesses": ["จุดอ่อน 1", "จุดอ่อน 2"],\n  "recommendations": ["คำแนะนำ 1", "คำแนะนำ 2"]\n}`
+            content: `สร้างฉากเปิดเกมสำหรับนักเรียนไทยชื่อ "${playerName}" ในสมัยรัชกาลที่ 5-6 ซึ่งต้องไปช่วยงานวัดในงานประเพณีสงกรานต์ ตอบเป็น JSON ตามรูปแบบนี้:\n{\n  "text": "ข้อความเนื้อเรื่อง",\n  "choices": [\n    {"id": "choice1", "text": "ตัวเลือก 1"},\n    {"id": "choice2", "text": "ตัวเลือก 2"},\n    {"id": "choice3", "text": "ตัวเลือก 3"}\n  ],\n  "context": {"scene": "opening", "playerName": "${playerName}"}\n}`
           }
         ]
       })
@@ -156,18 +50,21 @@ export const getAIAnalysis = async (results) => {
     
     return JSON.parse(jsonString);
   } catch (error) {
-    console.error('Error getting AI analysis:', error);
+    console.error('Error initializing story:', error);
     return {
-      summary: "ไม่สามารถวิเคราะห์ผลได้ในขณะนี้",
-      strengths: [],
-      weaknesses: [],
-      recommendations: []
+      text: `สวัสดี ${playerName}! คุณคือนักเรียนไทยในสมัยโบราณ วันนี้ครูให้ไปช่วยงานวัดประจำปี...`,
+      choices: [
+        { id: 'help_prepare', text: "ไปช่วยเตรียมของสำหรับงานวัด" },
+        { id: 'explore_temple', text: "ไปสำรวจวัดก่อนเริ่มงาน" },
+        { id: 'find_friends', text: "ไปหาเพื่อนๆ ที่มาช่วยงาน" }
+      ],
+      context: { scene: "opening", playerName }
     };
   }
 };
 
-// ฟังก์ชันสำหรับถามคำถามครู AI
-export const askAITeacher = async (question) => {
+// ฟังก์ชันสำหรับดำเนินเรื่องตามตัวเลือก
+export const makeChoice = async (choiceId, context) => {
   try {
     const apiKey = getApiKey();
     
@@ -178,15 +75,15 @@ export const askAITeacher = async (question) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: "llama-3.3-70b-versatile", // เปลี่ยนโมเดลที่ถูกยกเลิกเป็นโมเดลใหม่
+        model: "llama3-8b-8192",
         messages: [
           {
             role: "system",
-            content: "คุณเป็นครูสอนวัฒนธรรมไทย ตอบคำถามอย่างกระชับ เข้าใจง่าย และเป็นประโยชน์"
+            content: "คุณเป็นนักเขียนเนื้อเรื่องผจญภัยในสมัยโบราณของไทย ดำเนินเรื่องตามตัวเลือกของผู้เล่น สร้างเนื้อเรื่องที่มีตัวเลือก 2-3 ตัวเลือก ตอบเป็น JSON ตามรูปแบบที่กำหนด"
           },
           {
             role: "user",
-            content: question
+            content: `ดำเนินเรื่องต่อจาก context: ${JSON.stringify(context)}\n\nผู้เล่นเลือก: ${choiceId}\n\nตอบเป็น JSON ตามรูปแบบนี้:\n{\n  "story": {\n    "text": "ข้อความเนื้อเรื่อง",\n    "choices": [\n      {"id": "choice1", "text": "ตัวเลือก 1"},\n      {"id": "choice2", "text": "ตัวเลือก 2"}\n    ],\n    "context": {"scene": "next_scene", "playerName": "ชื่อผู้เล่น"}\n  },\n  "stats": {\n    "xp": 10,\n    "items": ["ไอเทมที่ได้รับ"]\n  },\n  "gameEnded": false,\n  "ending": null\n}`
           }
         ]
       })
@@ -198,9 +95,34 @@ export const askAITeacher = async (question) => {
     }
 
     const result = await response.json();
-    return result.choices[0].message.content;
+    const aiResponse = result.choices[0].message.content;
+    
+    // แยก JSON จากคำตอบของ AI
+    const jsonStart = aiResponse.indexOf('{');
+    const jsonEnd = aiResponse.lastIndexOf('}') + 1;
+    const jsonString = aiResponse.substring(jsonStart, jsonEnd);
+    
+    return JSON.parse(jsonString);
   } catch (error) {
-    console.error('Error asking AI teacher:', error);
-    return "ขออภัย ไม่สามารถตอบคำถามได้ในขณะนี้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ตและ API Key";
+    console.error('Error making choice:', error);
+    return {
+      story: {
+        text: "คุณได้ทำการเลือกของคุณ... และเรื่องราวก็ดำเนินต่อไป",
+        choices: [
+          { id: 'continue1', text: "ดำเนินเรื่องต่อ" },
+          { id: 'continue2', text: "สำรวจบริเวณ" }
+        ],
+        context: { ...context, previousChoice: choiceId }
+      },
+      stats: { xp: 5, items: [] },
+      gameEnded: false,
+      ending: null
+    };
   }
+};
+
+// ฟังก์ชันสำหรับรับสถิติผู้เล่น
+export const getPlayerProgress = () => {
+  const stats = localStorage.getItem('playerStats');
+  return stats ? JSON.parse(stats) : { xp: 0, items: [] };
 };

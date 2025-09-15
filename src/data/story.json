@@ -1,0 +1,507 @@
+{
+  "metadata": {
+    "title": "นักเรียนไทยย้อนยุค",
+    "version": "1.0.0",
+    "author": "ผู้พัฒนาเกม"
+  },
+  "scenes": {
+    "temple_courtyard_morning": {
+      "id": "temple_courtyard_morning",
+      "text": "เช้าวันสงกรานต์ แสงแดดอ่อนๆ ส่องผ่านต้นไม้ในวัดแห่งหนึ่ง คุณ {playerName} ลุกขึ้นนั่งบนพื้นคูหา ได้ยินเสียงเด็กๆ หัวเราะเล่นอยู่ไกลๆ และกลิ่นดอกไม้จันทน์หอมหวนลอยมา ครูบาอาจารย์เดินผ่านมาพร้อมยิ้มแย้ม ท่านชี้ไปที่มุมลานวัดที่กำลังจะจัดงาน \"หนุ่มหาบังเกง\" ซึ่งเป็นงานสำคัญของวัดในปีนี้",
+      "choices": [
+        {
+          "id": "join_preparation",
+          "text": "ขอไปช่วยจัดโต๊ะเครื่องเสวย",
+          "nextScene": "help_preparing_booth",
+          "stats": {
+            "xp": 5,
+            "items": ["ผ้าพันแผล", "ดอกไม้จันทน์"]
+          }
+        },
+        {
+          "id": "ask_about_duty",
+          "text": "ไปถามครูบาอาจารย์ว่าหนูมีหน้าที่อะไรบ้าง",
+          "nextScene": "ask_teacher_duty",
+          "stats": {
+            "xp": 3,
+            "items": ["บาตร"]
+          }
+        },
+        {
+          "id": "meet_friends",
+          "text": "ไปหาเพื่อนๆ ที่กำลังซ้อมรำวงอยู่",
+          "nextScene": "meet_friends_dancing",
+          "stats": {
+            "xp": 4,
+            "items": ["ผ้าพันแผล"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "temple_courtyard_morning",
+        "timeOfDay": "morning"
+      }
+    },
+    "help_preparing_booth": {
+      "id": "help_preparing_booth",
+      "text": "คุณไปยังโต๊ะที่พวกพี่ๆ กำลังจัดของเครื่องเสวย ท่านให้คุณช่วยปูผ้าห่มและจัดดอกไม้ประดับ คุณรู้สึกภูมิใจที่ได้ช่วยงานวัด...",
+      "choices": [
+        {
+          "id": "arrange_flowers_carefully",
+          "text": "ตั้งใจจัดดอกไม้ให้สวยงาม",
+          "nextScene": "arrange_flowers_result",
+          "stats": {
+            "xp": 7,
+            "items": ["ดอกไม้จันทน์", "กลิ่นธูป"]
+          }
+        },
+        {
+          "id": "fold_cloth_quickly",
+          "text": "ช่วยพับผ้าอย่างขยัน",
+          "nextScene": "fold_cloth_result",
+          "stats": {
+            "xp": 5,
+            "items": ["ผ้าพันแผล"]
+          }
+        },
+        {
+          "id": "chat_with_senior",
+          "text": "คุยกับพี่เลี้ยงเรื่องประเพณีสงกรานต์",
+          "nextScene": "learn_about_tradition",
+          "stats": {
+            "xp": 6,
+            "items": ["ความรู้เกี่ยวกับประเพณี"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "help_preparing_booth",
+        "timeOfDay": "morning"
+      }
+    },
+    "ask_teacher_duty": {
+      "id": "ask_teacher_duty",
+      "text": "คุณเดินไปหาครูบาอาจารย์ ท่านยิ้มและบอกว่า \"หนูจะช่วยตักบาตรเช้า และช่วยจัดของที่วัดบริจาคให้ผู้มีบุญนะลูก\" คุณรับคำแล้วรีบไปเตรียมตะกร้าตักบาตร...",
+      "choices": [
+        {
+          "id": "prepare_alms_bowl_carefully",
+          "text": "รีบไปเตรียมบาตรและผ้าคลุมอย่างพิถีพิถัน",
+          "nextScene": "prepare_alms_bowl_result_good",
+          "stats": {
+            "xp": 6,
+            "items": ["บาตร", "ผ้าคลุมบาตร", "น้ำมนต์"]
+          }
+        },
+        {
+          "id": "rush_to_get_bowl",
+          "text": "รีบไปหยิบบาตรที่อยู่ใกล้ๆ",
+          "nextScene": "prepare_alms_bowl_result_rushed",
+          "stats": {
+            "xp": 4,
+            "items": ["บาตร"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "ask_teacher_duty",
+        "timeOfDay": "morning"
+      }
+    },
+    "meet_friends_dancing": {
+      "id": "meet_friends_dancing",
+      "text": "คุณไปหาเพื่อนๆ ที่ลานวัด พวกเขากำลังซ้อมรำวง \"รามเกียรติ์\" อยู่ หัวหน้าวงชวนคุณ \"มาส่องเครื่องดนตรีหน่อยสิ ช่วยเลือกเพลงให้พวกเราหน่อย!\"",
+      "choices": [
+        {
+          "id": "choose_traditional_song",
+          "text": "เลือกเพลงรำวงมาตรฐาน \"พระรถเมฆผาติ\"",
+          "nextScene": "dancing_traditional_song",
+          "stats": {
+            "xp": 6,
+            "items": ["ความรู้ด้านดนตรี", "เสียงปรบมือ"]
+          }
+        },
+        {
+          "id": "choose_upbeat_song",
+          "text": "เลือกเพลงที่มีจังหวะเร็วขึ้น \"พระสุริโยทัย\"",
+          "nextScene": "dancing_upbeat_song",
+          "stats": {
+            "xp": 5,
+            "items": ["ความสนุก", "เหงื่อ"]
+          }
+        },
+        {
+          "id": "decline_and_watch",
+          "text": "ขอบคุณแต่บอกว่าต้องไปช่วยงานวัดก่อน",
+          "nextScene": "leave_to_help_temple",
+          "stats": {
+            "xp": 3,
+            "items": ["ความรับผิดชอบ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "meet_friends_dancing",
+        "timeOfDay": "morning"
+      }
+    },
+    "arrange_flowers_result": {
+      "id": "arrange_flowers_result",
+      "text": "คุณจัดดอกไม้ได้อย่างประณีต กลิ่นหอมชวนให้สบายใจ แม่ชีผู้ใหญ่ชมว่า \"จัดได้สวยงามมากเลยลูก กลิ่นดอกไม้จันทน์นี้จะช่วยให้งานวัดเป็นมงคล\" คุณได้รับกลิ่นธูปและดอกไม้จันทน์เป็นของขวัญ",
+      "choices": [
+        {
+          "id": "continue_helping",
+          "text": "ช่วยงานต่อที่อื่นในวัด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 4,
+            "items": []
+          }
+        },
+        {
+          "id": "go_for_alms_round",
+          "text": "ไปเตรียมตักบาตรตามที่ครูบาสั่ง",
+          "nextScene": "prepare_alms_bowl_result_good",
+          "stats": {
+            "xp": 3,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "arrange_flowers_result",
+        "timeOfDay": "morning"
+      }
+    },
+    "fold_cloth_result": {
+      "id": "fold_cloth_result",
+      "text": "คุณพับผ้าอย่างขยัน แม้จะไม่สวยงามเท่าคนอื่น แต่ความตั้งใจก็ถึงครูบา ท่านยิ้มให้และให้คุณช่วยไปจัดของที่ศาลาวัดต่อ",
+      "choices": [
+        {
+          "id": "go_to_pavilion",
+          "text": "ไปจัดของที่ศาลาวัด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 3,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "fold_cloth_result",
+        "timeOfDay": "morning"
+      }
+    },
+    "learn_about_tradition": {
+      "id": "learn_about_tradition",
+      "text": "พี่เลี้ยงเล่าให้คุณฟังว่า \"การจัดหนุ่มหาบังเกงเป็นประเพณีที่มีมาแต่โบราณ เพื่อให้เด็กๆ ได้เรียนรู้การช่วยงานวัดและมีจิตสำนึกดี\" คุณรู้สึกซาบซึ้งและตั้งใจจะช่วยงานให้ดีที่สุด",
+      "choices": [
+        {
+          "id": "promise_to_help_more",
+          "text": "สัญญากับพี่เลี้ยงว่าจะช่วยงานให้มากที่สุด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 5,
+            "items": ["ความรู้เกี่ยวกับประเพณี"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "learn_about_tradition",
+        "timeOfDay": "morning"
+      }
+    },
+    "prepare_alms_bowl_result_good": {
+      "id": "prepare_alms_bowl_result_good",
+      "text": "คุณเตรียมบาตรและผ้าคลุมอย่างพิถีพิถัน ใส่น้ำมนต์และดอกไม้จันทน์ไว้ด้วย ครูบาเห็นแล้วยิ้มพอใจ \"ดีมากลูก ตักบาตรด้วยจิตใจที่บริสุทธิ์ บุญจะได้มาก\" คุณได้รับน้ำมนต์เป็นพร",
+      "choices": [
+        {
+          "id": "start_alms_round",
+          "text": "เริ่มตักบาตรรอบเช้า",
+          "nextScene": "alms_round_success",
+          "stats": {
+            "xp": 7,
+            "items": ["บุญ", "อาหารเช้า"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "prepare_alms_bowl_result_good",
+        "timeOfDay": "morning"
+      }
+    },
+    "prepare_alms_bowl_result_rushed": {
+      "id": "prepare_alms_bowl_result_rushed",
+      "text": "คุณรีบไปหยิบบาตร แต่ลืมผ้าคลุม ครูบาเห็นแล้วเตือนอย่างสุภาพ \"ลูกจำไว้นะ บาตรต้องมีผ้าคลุม แสดงถึงความเคารพ\" คุณรีบไปเอาผ้าคลุมมาและขอโทษ",
+      "choices": [
+        {
+          "id": "apologize_and_start",
+          "text": "ขอโทษและเริ่มตักบาตรด้วยความตั้งใจ",
+          "nextScene": "alms_round_moderate",
+          "stats": {
+            "xp": 4,
+            "items": ["บทเรียน", "อาหารเช้า"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "prepare_alms_bowl_result_rushed",
+        "timeOfDay": "morning"
+      }
+    },
+    "dancing_traditional_song": {
+      "id": "dancing_traditional_song",
+      "text": "คุณเลือกเพลง \"พระรถเมฆผาติ\" ซึ่งเป็นเพลงคลาสสิก วงรำได้อย่างไพเราะ ส่งเสียงดนตรีที่ไพเราะ动人 ผู้ชมapplaudให้เสียงปรบมือ คุณรู้สึกภูมิใจที่ได้ช่วยเลือกเพลงที่ดี",
+      "choices": [
+        {
+          "id": "bow_and_help_temple",
+          "text": "กราบขอบคุณครูบาและไปช่วยงานวัดต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 6,
+            "items": ["เสียงปรบมือ", "ความรู้ด้านดนตรี"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "dancing_traditional_song",
+        "timeOfDay": "morning"
+      }
+    },
+    "dancing_upbeat_song": {
+      "id": "dancing_upbeat_song",
+      "text": "คุณเลือกเพลงจังหวะเร็ว ทำให้การรำมีพลังและสนุกสนาน แม้จะไม่ได้เป็นไปตามเนื้อเรื่องแบบดั้งเดิม แต่ก็สร้างความบันเทิงให้ผู้ชม คุณเหงื่อแตกแต่ก็รู้สึกมีความสุข",
+      "choices": [
+        {
+          "id": "rest_and_help_temple",
+          "text": "พักผ่อนสักหน่อยแล้วไปช่วยงานวัด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 5,
+            "items": ["ความสนุก", "เหงื่อ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "dancing_upbeat_song",
+        "timeOfDay": "morning"
+      }
+    },
+    "leave_to_help_temple": {
+      "id": "leave_to_help_temple",
+      "text": "คุณขอบคุณเพื่อนๆ แล้วรีบไปช่วยงานวัดตามที่ได้รับมอบหมาย คุณรู้สึกดีที่ได้จัดลำดับความสำคัญอย่างถูกต้อง",
+      "choices": [
+        {
+          "id": "go_to_assigned_duty",
+          "text": "ไปยังจุดที่ครูบาสั่งให้ช่วย",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 4,
+            "items": ["ความรับผิดชอบ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "leave_to_help_temple",
+        "timeOfDay": "morning"
+      }
+    },
+    "temple_courtyard_afternoon": {
+      "id": "temple_courtyard_afternoon",
+      "text": "เวลาผ่านไป แดดเริ่มแรงขึ้น งานวัดดำเนินไปอย่างคึกคัก คุณเห็นเด็กคนหนึ่งร้องไห้เพราะของเล่นหาย คุณจะทำอย่างไร?",
+      "choices": [
+        {
+          "id": "help_find_toy",
+          "text": "ช่วยเด็กคนนั้นตามหาของเล่น",
+          "nextScene": "find_toy_success",
+          "stats": {
+            "xp": 6,
+            "items": ["รอยยิ้มของเด็ก", "ความเมตตา"]
+          }
+        },
+        {
+          "id": "comfort_child",
+          "text": "ปลอบใจเด็กและพาไปเล่นอย่างอื่น",
+          "nextScene": "comfort_child_result",
+          "stats": {
+            "xp": 5,
+            "items": ["รอยยิ้มของเด็ก", "ความเข้าใจ"]
+          }
+        },
+        {
+          "id": "continue_duty",
+          "text": "บอกเด็กให้ถามแม่ และไปช่วยงานต่อ",
+          "nextScene": "generic_duty_evening",
+          "stats": {
+            "xp": 2,
+            "items": ["ความรับผิดชอบ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "temple_courtyard_afternoon",
+        "timeOfDay": "afternoon"
+      }
+    },
+    "alms_round_success": {
+      "id": "alms_round_success",
+      "text": "คุณตักบาตรรอบเช้าด้วยความตั้งใจ ได้รับอาหารอร่อยๆ และคำอวยพรจากผู้มีบุญมากมาย คุณรู้สึกอิ่มใจและมีบุญมาก",
+      "choices": [
+        {
+          "id": "thank_everyone_and_rest",
+          "text": "ขอบคุณทุกคนแล้วไปพักผ่อนสักหน่อย",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 5,
+            "items": ["บุญ", "อาหารเช้า"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "alms_round_success",
+        "timeOfDay": "morning"
+      }
+    },
+    "alms_round_moderate": {
+      "id": "alms_round_moderate",
+      "text": "คุณตักบาตรด้วยความตั้งใจ แม้จะเริ่มต้นผิดพลาด แต่คุณก็ได้รับอาหารและคำอวยพร เช่นเดียวกัน คุณได้เรียนรู้บทเรียนที่มีค่า",
+      "choices": [
+        {
+          "id": "reflect_and_continue",
+          "text": "ทบทวนสิ่งที่เรียนรู้แล้วไปช่วยงานต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 4,
+            "items": ["บทเรียน", "อาหารเช้า"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "alms_round_moderate",
+        "timeOfDay": "morning"
+      }
+    },
+    "find_toy_success": {
+      "id": "find_toy_success",
+      "text": "คุณช่วยเด็กตามหาของเล่นอย่างตั้งใจ จนพบว่าของเล่นอยู่ใต้ต้นไม้ คุณนำคืนให้เด็ก ที่ยิ้มกว้างและขอบคุณคุณอย่างดี คุณรู้สึกดีใจที่ได้ช่วยผู้อื่น",
+      "choices": [
+        {
+          "id": "continue_helping_others",
+          "text": "ไปช่วยงานต่อและมองหาโอกาสช่วยคนอื่น",
+          "nextScene": "generic_duty_evening",
+          "stats": {
+            "xp": 7,
+            "items": ["รอยยิ้มของเด็ก", "ความเมตตา"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "find_toy_success",
+        "timeOfDay": "afternoon"
+      }
+    },
+    "comfort_child_result": {
+      "id": "comfort_child_result",
+      "text": "คุณปลอบใจเด็กอย่างใจดี แล้วพาไปเล่นกับของเล่นอื่นที่มีอยู่ เด็กหยุดร้องไห้และยิ้มออกมา คุณรู้สึกอบอุ่นใจที่ได้ช่วยให้เด็กมีความสุข",
+      "choices": [
+        {
+          "id": "join_other_activities",
+          "text": "ไปร่วมกิจกรรมอื่นๆ ในวัด",
+          "nextScene": "generic_duty_evening",
+          "stats": {
+            "xp": 6,
+            "items": ["รอยยิ้มของเด็ก", "ความเข้าใจ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "comfort_child_result",
+        "timeOfDay": "afternoon"
+      }
+    },
+    "generic_duty_evening": {
+      "id": "generic_duty_evening",
+      "text": "พระอาทิตย์เริ่มตกดิน งานวัดใกล้จะสิ้นสุดลง คุณเหนื่อยแต่รู้สึกภูมิใจในสิ่งที่ได้ทำ ครูบาเรียกนักเรียนทุกคนมารวมตัวกันเพื่อสรุปวันนี้ คุณรู้สึกอย่างไรกับวันที่ผ่านมา?",
+      "choices": [
+        {
+          "id": "feel_proud_and_fulfilled",
+          "text": "ภูมิใจที่ได้ช่วยงานและเรียนรู้",
+          "nextScene": "ending_good_knowledgeable",
+          "stats": {
+            "xp": 5,
+            "items": []
+          }
+        },
+        {
+          "id": "feel_tired_but_happy",
+          "text": "เหนื่อยแต่มีความสุข",
+          "nextScene": "ending_neutral_participated",
+          "stats": {
+            "xp": 3,
+            "items": []
+          }
+        },
+        {
+          "id": "feel_bored_and_wish_to_play",
+          "text": "รู้สึกเบื่อและอยากไปเล่นมากกว่า",
+          "nextScene": "ending_bad_playful",
+          "stats": {
+            "xp": 1,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "generic_duty_evening",
+        "timeOfDay": "evening",
+        "isFinalScene": true
+      }
+    },
+    "ending_good_knowledgeable": {
+      "id": "ending_good_knowledgeable",
+      "text": "",
+      "choices": [],
+      "context": {
+        "scene": "ending_good_knowledgeable",
+        "isEnding": true,
+        "endingKey": "good_knowledgeable"
+      }
+    },
+    "ending_neutral_participated": {
+      "id": "ending_neutral_participated",
+      "text": "",
+      "choices": [],
+      "context": {
+        "scene": "ending_neutral_participated",
+        "isEnding": true,
+        "endingKey": "neutral_participated"
+      }
+    },
+    "ending_bad_playful": {
+      "id": "ending_bad_playful",
+      "text": "",
+      "choices": [],
+      "context": {
+        "scene": "ending_bad_playful",
+        "isEnding": true,
+        "endingKey": "bad_playful"
+      }
+    }
+  },
+  "endings": {
+    "good_knowledgeable": {
+      "type": "good",
+      "title": "นักเรียนผู้มีความรู้",
+      "text": "คุณช่วยงานวัดอย่างขยัน มีความรู้เกี่ยวกับพิธีกรรมและประเพณีไทย ทุกคนชื่นชมในตัวคุณ! คุณได้รับตำแหน่ง \"นักเรียนผู้มีความรู้\" แล้ว"
+    },
+    "neutral_participated": {
+      "type": "neutral",
+      "title": "ผู้มีส่วนร่วม",
+      "text": "คุณได้ร่วมกิจกรรมและเรียนรู้บางสิ่งบางอย่าง วันสงกรานต์ผ่านไปอย่างดี คุณได้รับตำแหน่ง \"ผู้มีส่วนร่วม\" แล้ว"
+    },
+    "bad_playful": {
+      "type": "bad",
+      "title": "นักเล่นซน",
+      "text": "คุณมีแนวโน้มที่จะเล่นมากกว่าเรียน แต่ไม่เป็นไร! วัฒนธรรมไทยมีมากมายให้ค้นคว้า ลองกลับมาเรียนรู้อีกครั้งนะ คุณได้รับตำแหน่ง \"นักเล่นซน\" ชั่วคราว"
+    }
+  }
+}

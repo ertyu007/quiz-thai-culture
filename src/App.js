@@ -1,31 +1,26 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Home from './pages/Home';
-import Quiz from './pages/Quiz';
-import Result from './pages/Result';
-import AITeacher from './components/AITeacher';
+import Game from './pages/Game';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-gradient-to-b from-amber-50 to-amber-100 flex flex-col">
         <Header />
-        <main>
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/quiz" element={<Quiz />} />
-            <Route path="/result" element={<Result />} />
+            <Route path="/game" element={<Game />} />
           </Routes>
         </main>
-        <div className="container mx-auto px-4 py-8">
-          <AITeacher />
-        </div>
-        <footer className="bg-gray-800 text-white py-8 mt-12">
+        <footer className="bg-amber-900 text-amber-100 py-6 sm:py-8 mt-12">
           <div className="container mx-auto px-4 text-center">
-            <p>เกมวัฒนธรรมไทย Quiz - เรียนรู้วัฒนธรรมไทยผ่านการเล่นเกม</p>
-            <p className="mt-2 text-gray-400">© 2023 สงวนลิขสิทธิ์</p>
+            <p className="text-sm sm:text-base">เกม "นักเรียนไทยย้อนยุค" - เรียนรู้วัฒนธรรมไทยผ่านการผจญภัย</p>
+            <p className="mt-1 sm:mt-2 text-amber-300 text-xs sm:text-sm">© 2024 สงวนลิขสิทธิ์</p>
           </div>
         </footer>
       </div>
