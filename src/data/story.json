@@ -1,26 +1,26 @@
 {
   "metadata": {
     "title": "นักเรียนไทยย้อนยุค",
-    "version": "2.0.0",
+    "version": "4.0.0",
     "author": "ผู้พัฒนาเกม"
   },
   "scenes": {
     "temple_courtyard_morning": {
       "id": "temple_courtyard_morning",
-      "text": "รุ่งอรุณของวันสงกรานต์ แสงแดดสีทองอ่อนๆ ส่องลอดทิวไม้ลงมายังลานวัดที่สงบงาม คุณ {playerName} ตื่นขึ้นมารับความสดชื่นของวันใหม่ เสียงเด็กๆ หัวเราะเจื้อยแจ้วแว่วมาแต่ไกล พร้อมกับกลิ่นหอมของดอกไม้และธูปเทียนที่ลอยลมมา ครูบาอาจารย์เดินผ่านมาด้วยใบหน้าเปี่ยมเมตตา ท่านชี้ไปยังมุมลานวัดที่กำลังจะจัดงาน \"หนุ่มหาบังเกง\" ซึ่งเป็นประเพณีสำคัญของวัดในปีนี้",
+      "text": "เช้าวันสงกรานต์ แสงแดดอ่อนๆ ส่องผ่านต้นไม้ในวัดแห่งหนึ่ง คุณ {playerName} ลุกขึ้นนั่งบนพื้นคูหา ได้ยินเสียงเด็กๆ หัวเราะเล่นอยู่ไกลๆ และกลิ่นดอกไม้จันทน์หอมหวนลอยมา ครูบาอาจารย์เดินผ่านมาพร้อมยิ้มแย้ม ท่านชี้ไปที่มุมลานวัดที่กำลังจะจัดงาน \"หนุ่มหาบังเกง\" ซึ่งเป็นงานสำคัญของวัดในปีนี้",
       "choices": [
         {
           "id": "join_preparation",
-          "text": "เข้าไปช่วยจัดเตรียมสำรับเครื่องคาวหวาน",
+          "text": "ขอไปช่วยจัดโต๊ะเครื่องเสวย",
           "nextScene": "help_preparing_booth",
           "stats": {
             "xp": 5,
-            "items": ["ผ้ากันเปื้อน", "ดอกจำปี"]
+            "items": ["ผ้าพันแผล", "ดอกไม้จันทน์"]
           }
         },
         {
           "id": "ask_about_duty",
-          "text": "เข้าไปกราบเรียนถามหน้าที่ที่ได้รับมอบหมาย",
+          "text": "ไปถามครูบาอาจารย์ว่าหนูมีหน้าที่อะไรบ้าง",
           "nextScene": "ask_teacher_duty",
           "stats": {
             "xp": 3,
@@ -29,44 +29,46 @@
         },
         {
           "id": "meet_friends",
-          "text": "ไปหาเพื่อนๆ ที่กำลังซ้อมรำวงกันอย่างสนุกสนาน",
+          "text": "ไปหาเพื่อนๆ ที่กำลังซ้อมรำวงอยู่",
           "nextScene": "meet_friends_dancing",
           "stats": {
             "xp": 4,
-            "items": ["ผ้าผูกเอว"]
+            "items": ["ผ้าพันแผล"]
           }
         }
       ],
       "context": {
         "scene": "temple_courtyard_morning",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["start", "duty", "social"]
     },
     "help_preparing_booth": {
       "id": "help_preparing_booth",
-      "text": "คุณเดินเข้าไปในโรงครัว ที่ซึ่งเหล่าพี่ๆ และผู้ใหญ่กำลังง่วนอยู่กับการเตรียมภัตตาหารเพลถวายพระ กลิ่นเครื่องแกงและขนมไทยหอมฟุ้งไปทั่ว ทุกคนทำงานกันอย่างแข็งขันแต่ก็เต็มไปด้วยรอยยิ้ม",
+      "text": "คุณไปยังโต๊ะที่พวกพี่ๆ กำลังจัดของเครื่องเสวย ท่านให้คุณช่วยปูผ้าห่มและจัดดอกไม้ประดับ คุณรู้สึกภูมิใจที่ได้ช่วยงานวัด...",
       "choices": [
         {
           "id": "arrange_flowers_carefully",
-          "text": "ช่วยร้อยมาลัยและจัดดอกไม้บูชาพระ",
+          "text": "ตั้งใจจัดดอกไม้ให้สวยงาม",
           "nextScene": "arrange_flowers_result",
           "stats": {
             "xp": 7,
-            "items": ["มาลัยดอกมะลิ", "กลิ่นธูป"]
+            "items": ["ดอกไม้จันทน์", "กลิ่นธูป"]
           }
         },
         {
           "id": "fold_cloth_quickly",
-          "text": "ช่วยจัดเตรียมผ้าสำหรับปูลาดอาสนะสงฆ์",
+          "text": "ช่วยพับผ้าอย่างขยัน",
           "nextScene": "fold_cloth_result",
           "stats": {
             "xp": 5,
-            "items": ["ผ้าอาสนะ"]
+            "items": ["ผ้าพันแผล"]
           }
         },
         {
           "id": "chat_with_senior",
-          "text": "ชวนคุณยายที่กำลังปอกมะพร้าวคุยเรื่องประเพณีเก่าแก่",
+          "text": "คุยกับพี่เลี้ยงเรื่องประเพณีสงกรานต์",
           "nextScene": "learn_about_tradition",
           "stats": {
             "xp": 6,
@@ -76,16 +78,18 @@
       ],
       "context": {
         "scene": "help_preparing_booth",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["work", "beauty", "knowledge"]
     },
     "ask_teacher_duty": {
       "id": "ask_teacher_duty",
-      "text": "คุณเดินเข้าไปหาครูบาอาจารย์ ท่านยิ้มและบอกว่า \"ดีแล้วที่มาถาม วันนี้ช่วยเป็นลูกมือจัดเตรียมบาตรสำหรับบิณฑบาตตอนเช้า แล้วสายๆ หน่อยก็ไปช่วยจัดของที่ชาวบ้านนำมาบริจาคที่ศาลากลางวัดนะ\"",
+      "text": "คุณเดินไปหาครูบาอาจารย์ ท่านยิ้มและบอกว่า \"หนูจะช่วยตักบาตรเช้า และช่วยจัดของที่วัดบริจาคให้ผู้มีบุญนะลูก\" คุณรับคำแล้วรีบไปเตรียมตะกร้าตักบาตร...",
       "choices": [
         {
           "id": "prepare_alms_bowl_carefully",
-          "text": "ตั้งใจเตรียมบาตรและผ้าคลุมอย่างประณีต",
+          "text": "รีบไปเตรียมบาตรและผ้าคลุมอย่างพิถีพิถัน",
           "nextScene": "prepare_alms_bowl_result_good",
           "stats": {
             "xp": 6,
@@ -94,7 +98,7 @@
         },
         {
           "id": "rush_to_get_bowl",
-          "text": "รีบร้อนไปหยิบบาตรเพราะกลัวจะไม่ทัน",
+          "text": "รีบไปหยิบบาตรที่อยู่ใกล้ๆ",
           "nextScene": "prepare_alms_bowl_result_rushed",
           "stats": {
             "xp": 4,
@@ -104,16 +108,18 @@
       ],
       "context": {
         "scene": "ask_teacher_duty",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["duty", "respect", "alms"]
     },
     "meet_friends_dancing": {
       "id": "meet_friends_dancing",
-      "text": "คุณเดินไปที่ลานกว้างซึ่งเพื่อนๆ กำลังซ้อมรำวงประกอบเพลงกันอย่างครื้นเครง เสียงกลองและฉิ่งฉับก้องกังวาน หัวหน้าวงรำกวักมือเรียก \"มานี่สิ! มาช่วยพวกเราเลือกว่าจะรำเพลงอะไรในงานเย็นนี้ดี\"",
+      "text": "คุณไปหาเพื่อนๆ ที่ลานวัด พวกเขากำลังซ้อมรำวง \"รามเกียรติ์\" อยู่ หัวหน้าวงชวนคุณ \"มาส่องเครื่องดนตรีหน่อยสิ ช่วยเลือกเพลงให้พวกเราหน่อย!\"",
       "choices": [
         {
           "id": "choose_traditional_song",
-          "text": "เลือกเพลงรำวงมาตรฐาน \"งามแสงเดือน\"",
+          "text": "เลือกเพลงรำวงมาตรฐาน \"พระรถเมฆผาติ\"",
           "nextScene": "dancing_traditional_song",
           "stats": {
             "xp": 6,
@@ -122,7 +128,7 @@
         },
         {
           "id": "choose_upbeat_song",
-          "text": "เลือกเพลงสนุกๆ อย่าง \"รำวงวันสงกรานต์\"",
+          "text": "เลือกเพลงที่มีจังหวะเร็วขึ้น \"พระสุริโยทัย\"",
           "nextScene": "dancing_upbeat_song",
           "stats": {
             "xp": 5,
@@ -131,7 +137,7 @@
         },
         {
           "id": "decline_and_watch",
-          "text": "ขอบคุณและบอกว่าต้องรีบไปช่วยงานที่ได้รับมอบหมาย",
+          "text": "ขอบคุณแต่บอกว่าต้องไปช่วยงานวัดก่อน",
           "nextScene": "leave_to_help_temple",
           "stats": {
             "xp": 3,
@@ -141,35 +147,48 @@
       ],
       "context": {
         "scene": "meet_friends_dancing",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["social", "performance", "responsibility"]
     },
     "arrange_flowers_result": {
       "id": "arrange_flowers_result",
-      "text": "คุณตั้งใจร้อยมาลัยดอกมะลิอย่างประณีต กลิ่นหอมเย็นชื่นใจ คุณแม่ชีเดินมาเห็นแล้วเอ่ยชม \"งามมากจ้ะ จิตใจที่สงบเยี่ยงนี้ทำงานใดย่อมสำเร็จผล\" ท่านมอบธูปหอมให้คุณหนึ่งกำ",
+      "text": "คุณจัดดอกไม้ได้อย่างประณีต กลิ่นหอมชวนให้สบายใจ แม่ชีผู้ใหญ่ชมว่า \"จัดได้สวยงามมากเลยลูก กลิ่นดอกไม้จันทน์นี้จะช่วยให้งานวัดเป็นมงคล\" คุณได้รับกลิ่นธูปและดอกไม้จันทน์เป็นของขวัญ",
       "choices": [
         {
           "id": "continue_helping",
-          "text": "อาสาช่วยงานอื่นในโรงครัวต่อ",
+          "text": "ช่วยงานต่อที่อื่นในวัด",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 4,
+            "items": []
+          }
+        },
+        {
+          "id": "go_for_alms_round",
+          "text": "ไปเตรียมตักบาตรตามที่ครูบาสั่ง",
+          "nextScene": "prepare_alms_bowl_result_good",
+          "stats": {
+            "xp": 3,
             "items": []
           }
         }
       ],
       "context": {
         "scene": "arrange_flowers_result",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["beauty", "praise", "transition"]
     },
     "fold_cloth_result": {
       "id": "fold_cloth_result",
-      "text": "คุณช่วยพับผ้าอาสนะอย่างขะมักเขม้น แม้จะไม่เรียบกริบเท่าผู้ใหญ่ทำ แต่ความตั้งใจของคุณก็เป็นที่ประจักษ์ ครูบาอาจารย์ยิ้มให้และบอกให้คุณไปช่วยจัดของที่ศาลาต่อได้",
+      "text": "คุณพับผ้าอย่างขยัน แม้จะไม่สวยงามเท่าคนอื่น แต่ความตั้งใจก็ถึงครูบา ท่านยิ้มให้และให้คุณช่วยไปจัดของที่ศาลาวัดต่อ",
       "choices": [
         {
           "id": "go_to_pavilion",
-          "text": "เดินไปยังศาลากลางวัด",
+          "text": "ไปจัดของที่ศาลาวัด",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 3,
@@ -179,35 +198,39 @@
       ],
       "context": {
         "scene": "fold_cloth_result",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["work", "effort", "transition"]
     },
     "learn_about_tradition": {
       "id": "learn_about_tradition",
-      "text": "คุณยายเล่าด้วยรอยยิ้มว่า \"ประเพณีสงกรานต์ไม่ใช่แค่การเล่นน้ำ แต่คือการแสดงความกตัญญูต่อผู้ใหญ่ การทำบุญอุทิศส่วนกุศล และการเริ่มต้นปีใหม่ด้วยจิตใจที่เบิกบาน การที่เรามาช่วยงานวัดก็ได้บุญโขแล้วล่ะหนูเอ๊ย\"",
+      "text": "พี่เลี้ยงเล่าให้คุณฟังว่า \"การจัดหนุ่มหาบังเกงเป็นประเพณีที่มีมาแต่โบราณ เพื่อให้เด็กๆ ได้เรียนรู้การช่วยงานวัดและมีจิตสำนึกดี\" คุณรู้สึกซาบซึ้งและตั้งใจจะช่วยงานให้ดีที่สุด",
       "choices": [
         {
           "id": "promise_to_help_more",
-          "text": "ตั้งใจว่าจะช่วยงานวัดให้ดีที่สุด",
+          "text": "สัญญากับพี่เลี้ยงว่าจะช่วยงานให้มากที่สุด",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 5,
-            "items": ["ความรู้เกี่ยวกับประเพณี", "พรจากผู้ใหญ่"]
+            "items": ["ความรู้เกี่ยวกับประเพณี"]
           }
         }
       ],
       "context": {
         "scene": "learn_about_tradition",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["knowledge", "tradition", "promise"]
     },
     "prepare_alms_bowl_result_good": {
       "id": "prepare_alms_bowl_result_good",
-      "text": "คุณเช็ดบาตรจนขึ้นเงา จัดเตรียมผ้าคลุมอย่างเรียบร้อย และประพรมน้ำมนต์เล็กน้อยเพื่อความเป็นสิริมงคล ครูบาเห็นแล้วยิ้มพอใจ \"ดีมาก จิตที่เลื่อมใสย่อมนำมาซึ่งบุญกุศลอันยิ่งใหญ่\" ท่านมอบน้ำมนต์ให้คุณหนึ่งขวดเล็ก",
+      "text": "คุณเตรียมบาตรและผ้าคลุมอย่างพิถีพิถัน ใส่น้ำมนต์และดอกไม้จันทน์ไว้ด้วย ครูบาเห็นแล้วยิ้มพอใจ \"ดีมากลูก ตักบาตรด้วยจิตใจที่บริสุทธิ์ บุญจะได้มาก\" คุณได้รับน้ำมนต์เป็นพร",
       "choices": [
         {
           "id": "start_alms_round",
-          "text": "เริ่มออกเดินบิณฑบาตรอบเช้า",
+          "text": "เริ่มตักบาตรรอบเช้า",
           "nextScene": "alms_round_success",
           "stats": {
             "xp": 7,
@@ -217,16 +240,18 @@
       ],
       "context": {
         "scene": "prepare_alms_bowl_result_good",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["alms", "respect", "merit"]
     },
     "prepare_alms_bowl_result_rushed": {
       "id": "prepare_alms_bowl_result_rushed",
-      "text": "ด้วยความรีบร้อน คุณหยิบบาตรมาแต่ลืมผ้าคลุม ครูบาเห็นแล้วตักเตือนอย่างสุภาพ \"ลูกเอ๋ย การทำสิ่งใดถวายพระ ควรทำด้วยความเคารพและตั้งใจนะ\" คุณรีบวิ่งกลับไปเอาผ้าคลุมมาด้วยใบหน้าที่รู้สึกผิด",
+      "text": "คุณรีบไปหยิบบาตร แต่ลืมผ้าคลุม ครูบาเห็นแล้วเตือนอย่างสุภาพ \"ลูกจำไว้นะ บาตรต้องมีผ้าคลุม แสดงถึงความเคารพ\" คุณรีบไปเอาผ้าคลุมมาและขอโทษ",
       "choices": [
         {
           "id": "apologize_and_start",
-          "text": "กราบขอโทษและเริ่มบิณฑบาตด้วยความสำรวม",
+          "text": "ขอโทษและเริ่มตักบาตรด้วยความตั้งใจ",
           "nextScene": "alms_round_moderate",
           "stats": {
             "xp": 4,
@@ -236,16 +261,18 @@
       ],
       "context": {
         "scene": "prepare_alms_bowl_result_rushed",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["alms", "mistake", "lesson"]
     },
     "dancing_traditional_song": {
       "id": "dancing_traditional_song",
-      "text": "คุณเลือกเพลง \"งามแสงเดือน\" ทำให้ท่ารำออกมาอ่อนช้อยสวยงาม ผู้คนที่เดินผ่านไปมาหยุดดูด้วยความชื่นชม เมื่อเพลงจบลง เสียงปรบมือก็ดังกึกก้อง คุณรู้สึกภาคภูมิใจที่ได้เป็นส่วนหนึ่งของการแสดงที่งดงามนี้",
+      "text": "คุณเลือกเพลง \"พระรถเมฆผาติ\" ซึ่งเป็นเพลงคลาสสิก วงรำได้อย่างไพเราะ ส่งเสียงดนตรีที่ไพเราะ动人 ผู้ชมapplaudให้เสียงปรบมือ คุณรู้สึกภูมิใจที่ได้ช่วยเลือกเพลงที่ดี",
       "choices": [
         {
           "id": "bow_and_help_temple",
-          "text": "โค้งขอบคุณผู้ชมแล้วรีบไปช่วยงานวัดต่อ",
+          "text": "กราบขอบคุณครูบาและไปช่วยงานวัดต่อ",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 6,
@@ -255,16 +282,18 @@
       ],
       "context": {
         "scene": "dancing_traditional_song",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["performance", "tradition", "praise"]
     },
     "dancing_upbeat_song": {
       "id": "dancing_upbeat_song",
-      "text": "คุณเลือกเพลง \"รำวงวันสงกรานต์\" จังหวะที่คึกคักทำให้ทุกคนรำกันอย่างสนุกสนานและมีชีวิตชีวา แม้ท่ารำจะไม่เป๊ะตามแบบแผน แต่ก็สร้างรอยยิ้มและเสียงหัวเราะให้กับทุกคน คุณเหงื่อท่วมตัวแต่ก็มีความสุขมาก",
+      "text": "คุณเลือกเพลงจังหวะเร็ว ทำให้การรำมีพลังและสนุกสนาน แม้จะไม่ได้เป็นไปตามเนื้อเรื่องแบบดั้งเดิม แต่ก็สร้างความบันเทิงให้ผู้ชม คุณเหงื่อแตกแต่ก็รู้สึกมีความสุข",
       "choices": [
         {
           "id": "rest_and_help_temple",
-          "text": "นั่งพักดื่มน้ำเย็นๆ แล้วไปช่วยงานวัดต่อ",
+          "text": "พักผ่อนสักหน่อยแล้วไปช่วยงานวัด",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 5,
@@ -274,16 +303,18 @@
       ],
       "context": {
         "scene": "dancing_upbeat_song",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["performance", "fun", "energy"]
     },
     "leave_to_help_temple": {
       "id": "leave_to_help_temple",
-      "text": "คุณบอกลาเพื่อนๆ แล้วรีบไปช่วยงานตามหน้าที่ คุณรู้สึกดีที่รู้จักแบ่งเวลาและให้ความสำคัญกับส่วนรวม",
+      "text": "คุณขอบคุณเพื่อนๆ แล้วรีบไปช่วยงานวัดตามที่ได้รับมอบหมาย คุณรู้สึกดีที่ได้จัดลำดับความสำคัญอย่างถูกต้อง",
       "choices": [
         {
           "id": "go_to_assigned_duty",
-          "text": "ไปยังจุดที่ได้รับมอบหมาย",
+          "text": "ไปยังจุดที่ครูบาสั่งให้ช่วย",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 4,
@@ -293,16 +324,250 @@
       ],
       "context": {
         "scene": "leave_to_help_temple",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["responsibility", "transition"]
+    },
+    "temple_market_morning": {
+      "id": "temple_market_morning",
+      "text": "พระอาทิตย์ขึ้นสูงขึ้น ลานวัดเริ่มคึกคักด้วยผู้มีบุญและพ่อค้าแม่ค้า \"ตลาดงานวัด\" เริ่มเปิดขาย คุณเห็นขนมไทยหอมกรุ่นและของเล่นพื้นบ้านตั้งเรียงราย คุณอยากทำอะไร?",
+      "choices": [
+        {
+          "id": "buy_snacks",
+          "text": "ซื้อขนมไทยอร่อยๆ มาลองชิม",
+          "nextScene": "buy_snacks_result",
+          "stats": {
+            "xp": 4,
+            "items": ["ขนมตาล", "ความอร่อย"]
+          }
+        },
+        {
+          "id": "play_on_swing",
+          "text": "ไปเล่นชิงช้าสวรรค์ที่ตั้งอยู่ในมุมลาน",
+          "nextScene": "play_on_swing_result",
+          "stats": {
+            "xp": 5,
+            "items": ["ตั๋วชิงช้าสวรรค์", "ความสนุก"]
+          }
+        },
+        {
+          "id": "talk_to_vendor",
+          "text": "คุยกับพ่อค้าเรื่องของใช้ในงานวัด",
+          "nextScene": "talk_to_vendor_result",
+          "stats": {
+            "xp": 3,
+            "items": ["ความรู้การต่อรอง"]
+          }
+        },
+        {
+          "id": "seek_alms_advanced",
+          "text": "ไปตักบาตรรอบพิเศษ (ต้องมีบาตร)",
+          "nextScene": "seek_alms_advanced_result",
+          "requiredItems": ["บาตร"],
+          "stats": {
+            "xp": 10,
+            "items": ["บุญพิเศษ", "อาหารอร่อย"]
+          }
+        },
+        {
+          "id": "enter_competition",
+          "text": "ไปดูการแข่งขันพื้นบ้าน",
+          "nextScene": "competition_area_morning",
+          "stats": {
+            "xp": 2,
+            "items": []
+          }
+        },
+        {
+          "id": "play_mini_game",
+          "text": "ไปเล่นเกมเล็กๆ ที่พ่อค้าจัดไว้",
+          "nextScene": "mini_game_hub",
+          "stats": {
+            "xp": 1,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "temple_market_morning",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["market", "snacks", "fun", "alms", "competition", "mini-game"]
+    },
+    "buy_snacks_result": {
+      "id": "buy_snacks_result",
+      "text": "คุณซื้อขนมตาลและข้าวต้มมัดมาชิม รสชาติหวานหอมอร่อยมาก คุณรู้สึกอิ่มใจและมีพลังในการทำงานต่อ",
+      "choices": [
+        {
+          "id": "continue_after_snack",
+          "text": "กินขนมเสร็จแล้วไปช่วยงานต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 2,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "buy_snacks_result",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["snacks", "energy", "transition"]
+    },
+    "play_on_swing_result": {
+      "id": "play_on_swing_result",
+      "text": "คุณใช้ตั๋วชิงช้าสวรรค์และขึ้นไปเล่น ลมพัดเย็นสบาย คุณหัวเราะอย่างสนุกสนาน ความสุขนี้ทำให้คุณมีกำลังใจในการช่วยงานมากขึ้น",
+      "choices": [
+        {
+          "id": "play_then_work",
+          "text": "เล่นเสร็จแล้วไปช่วยงานวัด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 3,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "play_on_swing_result",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["fun", "swing", "transition"]
+    },
+    "talk_to_vendor_result": {
+      "id": "talk_to_vendor_result",
+      "text": "คุณคุยกับพ่อค้าผู้ขายของเล่นไม้ เขาเล่าให้คุณฟังเรื่องราวของของเล่นแต่ละชิ้น และสอนคุณการต่อรองราคาอย่างสุภาพ คุณได้ความรู้ใหม่ๆ",
+      "choices": [
+        {
+          "id": "learn_then_help",
+          "text": "ขอบคุณพ่อค้าแล้วไปช่วยงานต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 4,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "talk_to_vendor_result",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["knowledge", "negotiation", "transition"]
+    },
+    "seek_alms_advanced_result": {
+      "id": "seek_alms_advanced_result",
+      "text": "คุณถือบาตรที่เตรียมมาอย่างดี และเข้าร่วมพิธีตักบาตรรอบพิเศษ คุณได้รับอาหารอร่อยๆ และคำอวยพรจากผู้มีบุญมากมาย คุณรู้สึกอิ่มใจและมีบุญมาก",
+      "choices": [
+        {
+          "id": "thank_and_continue",
+          "text": "ขอบคุณทุกคนแล้วไปช่วยงานต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 7,
+            "items": ["บุญพิเศษ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "seek_alms_advanced_result",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["alms", "merit", "special", "transition"]
+    },
+    "competition_area_morning": {
+      "id": "competition_area_morning",
+      "text": "คุณเดินไปยังบริเวณจัดการแข่งขัน คุณเห็นเด็กๆ กำลังแข่ง \"รีรีข้าวสาร\" และ \"ชักเย่อ\" อย่างสนุกสนาน คุณจะทำอย่างไร?",
+      "choices": [
+        {
+          "id": "join_competition",
+          "text": "เข้าร่วมการแข่งขัน \"รีรีข้าวสาร\"",
+          "nextScene": "race_competition_result",
+          "stats": {
+            "xp": 6,
+            "items": ["เหรียญรางวัล", "เหงื่อ"]
+          }
+        },
+        {
+          "id": "cheer_for_friends",
+          "text": "เชียร์เพื่อนๆ ที่กำลังแข่งขัน",
+          "nextScene": "cheer_competition_result",
+          "stats": {
+            "xp": 4,
+            "items": ["เสียงหัวเราะ", "ความสนุก"]
+          }
+        },
+        {
+          "id": "watch_passively",
+          "text": "นั่งดูเฉยๆ และไปช่วยงานต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 2,
+            "items": ["ความรู้เกี่ยวกับการแข่งขัน"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "competition_area_morning",
+        "timeOfDay": "morning",
+        "location": "competition"
+      },
+      "tags": ["competition", "race", "cheer", "transition"]
+    },
+    "race_competition_result": {
+      "id": "race_competition_result",
+      "text": "คุณเข้าร่วมการแข่ง \"รีรีข้าวสาร\" ด้วยความตั้งใจ แม้จะเหนื่อยแต่คุณก็สนุกมาก คุณได้รับเหรียญรางวัลเป็นของขวัญ และได้เรียนรู้ทักษะใหม่ๆ",
+      "choices": [
+        {
+          "id": "win_race_then_work",
+          "text": "รับรางวัลแล้วไปช่วยงานวัดต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 8,
+            "items": ["เหรียญรางวัล"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "race_competition_result",
+        "timeOfDay": "morning",
+        "location": "competition"
+      },
+      "tags": ["competition", "race", "win", "transition"]
+    },
+    "cheer_competition_result": {
+      "id": "cheer_competition_result",
+      "text": "คุณเชียร์เพื่อนๆ อย่างสนุกสนาน ทำให้บรรยากาศการแข่งขันคึกคักมากขึ้น คุณรู้สึกดีที่ได้เป็นกำลังใจให้เพื่อน และได้ความสนุกจากเสียงหัวเราะ",
+      "choices": [
+        {
+          "id": "cheer_then_work",
+          "text": "เชียร์เสร็จแล้วไปช่วยงานวัด",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 5,
+            "items": ["เสียงหัวเราะ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "cheer_competition_result",
+        "timeOfDay": "morning",
+        "location": "competition"
+      },
+      "tags": ["competition", "cheer", "fun", "transition"]
     },
     "alms_round_success": {
       "id": "alms_round_success",
-      "text": "คุณเดินตามพระบิณฑบาตด้วยกิริยาสำรวม ชาวบ้านใส่บาตรด้วยใบหน้ายิ้มแย้มและให้พรคุณ คุณรู้สึกอิ่มเอมใจอย่างบอกไม่ถูก",
+      "text": "คุณตักบาตรรอบเช้าด้วยความตั้งใจ ได้รับอาหารอร่อยๆ และคำอวยพรจากผู้มีบุญมากมาย คุณรู้สึกอิ่มใจและมีบุญมาก",
       "choices": [
         {
           "id": "thank_everyone_and_rest",
-          "text": "นำอาหารไปเก็บที่โรงครัวแล้วพักสักครู่",
+          "text": "ขอบคุณทุกคนแล้วไปพักผ่อนสักหน่อย",
           "nextScene": "temple_market_morning",
           "stats": {
             "xp": 5,
@@ -312,12 +577,14 @@
       ],
       "context": {
         "scene": "alms_round_success",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["alms", "merit", "success", "transition"]
     },
     "alms_round_moderate": {
       "id": "alms_round_moderate",
-      "text": "แม้จะเริ่มต้นอย่างผิดพลาด แต่คุณก็ตั้งใจปฏิบัติหน้าที่อย่างเต็มที่ ชาวบ้านยังคงใส่บาตรและให้พรคุณเช่นเคย คุณได้เรียนรู้ถึงความสำคัญของการมีสติ",
+      "text": "คุณตักบาตรด้วยความตั้งใจ แม้จะเริ่มต้นผิดพลาด แต่คุณก็ได้รับอาหารและคำอวยพร เช่นเดียวกัน คุณได้เรียนรู้บทเรียนที่มีค่า",
       "choices": [
         {
           "id": "reflect_and_continue",
@@ -331,186 +598,68 @@
       ],
       "context": {
         "scene": "alms_round_moderate",
-        "timeOfDay": "morning"
-      }
-    },
-    "temple_market_morning": {
-      "id": "temple_market_morning",
-      "text": "เมื่อพระอาทิตย์ลอยสูงขึ้น ลานวัดก็เริ่มคึกคักไปด้วยผู้คน พ่อค้าแม่ค้านำของมาตั้งแผงขาย กลายเป็นตลาดนัดย่อมๆ มีทั้งขนมไทยโบราณ ของเล่นสังกะสี และเครื่องหอมต่างๆ คุณจะทำอะไรต่อดี?",
-      "choices": [
-        {
-          "id": "buy_snacks",
-          "text": "ซื้อขนมเบื้องกับน้ำสมุนไพรมาทาน",
-          "nextScene": "buy_snacks_result",
-          "stats": {
-            "xp": 4,
-            "items": ["ขนมเบื้อง", "ความอร่อย"]
-          }
-        },
-        {
-          "id": "watch_show",
-          "text": "ไปมุงดูการแสดงปาหี่ที่มุมหนึ่งของลานวัด",
-          "nextScene": "watch_show_result",
-          "stats": {
-            "xp": 5,
-            "items": ["ตั๋วชมการแสดง", "ความตื่นเต้น"]
-          }
-        },
-        {
-          "id": "help_at_donation_booth",
-          "text": "ไปยังศาลาเพื่อช่วยจัดของบริจาคตามที่ได้รับมอบหมาย",
-          "nextScene": "donation_booth_duty",
-          "stats": {
-            "xp": 6,
-            "items": ["ความรับผิดชอบ", "จิตอาสา"]
-          }
-        }
-      ],
-      "context": {
-        "scene": "temple_market_morning",
-        "timeOfDay": "morning"
-      }
-    },
-    "buy_snacks_result": {
-      "id": "buy_snacks_result",
-      "text": "คุณซื้อขนมเบื้องร้อนๆ และน้ำกระเจี๊ยบเย็นชื่นใจมานั่งทานใต้ร่มไม้ รสชาติอร่อยทำให้คุณหายเหนื่อยเป็นปลิดทิ้ง",
-      "choices": [
-        {
-          "id": "continue_after_snack",
-          "text": "ทานเสร็จแล้วไปเดินดูรอบๆ งานต่อ",
-          "nextScene": "temple_courtyard_afternoon",
-          "stats": {
-            "xp": 2,
-            "items": []
-          }
-        }
-      ],
-      "context": {
-        "scene": "buy_snacks_result",
-        "timeOfDay": "morning"
-      }
-    },
-    "watch_show_result": {
-      "id": "watch_show_result",
-      "text": "คุณไปยืนดูการแสดงปาหี่อย่างตื่นตาตื่นใจ นักแสดงโชว์กลต่างๆ ได้อย่างน่าทึ่ง เสียงปรบมือและเสียงโห่ร้องด้วยความชอบใจดังไปทั่วบริเวณ",
-      "choices": [
-        {
-          "id": "watch_then_work",
-          "text": "ดูจบแล้วไปช่วยงานวัดต่อ",
-          "nextScene": "temple_courtyard_afternoon",
-          "stats": {
-            "xp": 3,
-            "items": []
-          }
-        }
-      ],
-      "context": {
-        "scene": "watch_show_result",
-        "timeOfDay": "morning"
-      }
-    },
-    "donation_booth_duty": {
-      "id": "donation_booth_duty",
-      "text": "คุณไปยังศาลาที่เต็มไปด้วยข้าวของซึ่งชาวบ้านนำมาบริจาค มีทั้งเสื้อผ้า ข้าวสาร อาหารแห้ง คุณช่วยจัดแยกของเป็นหมวดหมู่อย่างเป็นระเบียบเพื่อให้ง่ายต่อการนำไปแจกจ่ายต่อไป",
-      "choices": [
-        {
-          "id": "work_diligently",
-          "text": "ตั้งใจทำงานอย่างไม่รู้จักเหน็ดเหนื่อย",
-          "nextScene": "temple_courtyard_afternoon",
-          "stats": {
-            "xp": 7,
-            "items": ["จิตอาสา", "คำชม"]
-          }
-        }
-      ],
-      "context": {
-        "scene": "donation_booth_duty",
-        "timeOfDay": "morning"
-      }
+        "timeOfDay": "morning",
+        "location": "courtyard"
+      },
+      "tags": ["alms", "merit", "lesson", "transition"]
     },
     "temple_courtyard_afternoon": {
       "id": "temple_courtyard_afternoon",
-      "text": "บ่ายคล้อย แดดเริ่มร่มลมตก กิจกรรมในวัดยิ่งทวีความคึกคักมากขึ้น เสียงดนตรีดังเคล้าไปกับเสียงหัวเราะของผู้คน คุณเห็นชาวบ้านกำลังเตรียมก่อพระเจดีย์ทราย และอีกมุมหนึ่งก็มีการเตรียมน้ำอบน้ำหอมสำหรับสรงน้ำพระ",
+      "text": "เวลาผ่านไป แดดเริ่มแรงขึ้น งานวัดดำเนินไปอย่างคึกคัก คุณเห็นเด็กคนหนึ่งร้องไห้เพราะของเล่นหาย คุณจะทำอย่างไร?",
       "choices": [
         {
-          "id": "join_sand_pagoda",
-          "text": "ไปช่วยก่อพระเจดีย์ทราย",
-          "nextScene": "sand_pagoda_scene",
-          "stats": {
-            "xp": 6,
-            "items": ["ธงกระดาษสี", "ความสามัคคี"]
-          }
-        },
-        {
-          "id": "join_song_nam_phra",
-          "text": "ไปร่วมพิธีสรงน้ำพระพุทธรูป",
-          "nextScene": "song_nam_phra_scene",
-          "stats": {
-            "xp": 7,
-            "items": ["ขันเงิน", "สิริมงคล"]
-          }
-        },
-        {
-          "id": "help_crying_child",
-          "text": "สังเกตเห็นเด็กคนหนึ่งกำลังร้องไห้ จึงเดินเข้าไปหา",
+          "id": "help_find_toy",
+          "text": "ช่วยเด็กคนนั้นตามหาของเล่น",
           "nextScene": "find_toy_success",
           "stats": {
+            "xp": 6,
+            "items": ["รอยยิ้มของเด็ก", "ความเมตตา"]
+          }
+        },
+        {
+          "id": "comfort_child",
+          "text": "ปลอบใจเด็กและพาไปเล่นอย่างอื่น",
+          "nextScene": "comfort_child_result",
+          "stats": {
             "xp": 5,
-            "items": ["ความเมตตา"]
+            "items": ["รอยยิ้มของเด็ก", "ความเข้าใจ"]
+          }
+        },
+        {
+          "id": "continue_duty",
+          "text": "บอกเด็กให้ถามแม่ และไปช่วยงานต่อ",
+          "nextScene": "generic_duty_evening",
+          "stats": {
+            "xp": 2,
+            "items": ["ความรับผิดชอบ"]
+          }
+        },
+        {
+          "id": "special_performance",
+          "text": "แสดงทักษะพิเศษที่เรียนมา (ต้องมีความรู้ด้านดนตรี)",
+          "nextScene": "special_performance_result",
+          "requiredItems": ["ความรู้ด้านดนตรี"],
+          "stats": {
+            "xp": 15,
+            "items": ["เสียงปรบมือ", "ความมั่นใจ"]
           }
         }
       ],
       "context": {
         "scene": "temple_courtyard_afternoon",
-        "timeOfDay": "afternoon"
-      }
-    },
-    "sand_pagoda_scene": {
-      "id": "sand_pagoda_scene",
-      "text": "คุณเข้าร่วมกับกลุ่มชาวบ้านที่กำลังช่วยกันขนทรายและก่อเป็นรูปเจดีย์ ทุกคนร่วมมือร่วมใจกันอย่างแข็งขัน พร้อมประดับประดาด้วยดอกไม้และธงสีสันสดใส เป็นภาพที่น่าประทับใจยิ่งนัก",
-      "choices": [
-        {
-          "id": "decorate_pagoda",
-          "text": "ช่วยปักธงและดอกไม้ตกแต่งเจดีย์ให้สวยงาม",
-          "nextScene": "rod_nam_dam_hua_elders",
-          "stats": {
-            "xp": 6,
-            "items": ["ความคิดสร้างสรรค์"]
-          }
-        }
-      ],
-      "context": {
-        "scene": "sand_pagoda_scene",
-        "timeOfDay": "afternoon"
-      }
-    },
-    "song_nam_phra_scene": {
-      "id": "song_nam_phra_scene",
-      "text": "คุณเดินไปยังโต๊ะหมู่บูชาที่ประดิษฐานพระพุทธรูปสำคัญของวัด ผู้คนกำลังต่อแถวเพื่อใช้ขันตักน้ำอบน้ำหอมสรงที่องค์พระด้วยความเคารพ กลิ่นหอมของดอกไม้และเครื่องหอมไทยทำให้จิตใจสงบ",
-      "choices": [
-        {
-          "id": "pour_water_respectfully",
-          "text": "ค่อยๆ สรงน้ำที่องค์พระ พร้อมตั้งจิตอธิษฐาน",
-          "nextScene": "rod_nam_dam_hua_elders",
-          "stats": {
-            "xp": 8,
-            "items": ["สิริมงคล", "ความสงบใจ"]
-          }
-        }
-      ],
-      "context": {
-        "scene": "song_nam_phra_scene",
-        "timeOfDay": "afternoon"
-      }
+        "timeOfDay": "afternoon",
+        "location": "courtyard"
+      },
+      "tags": ["afternoon", "child", "help", "performance"]
     },
     "find_toy_success": {
       "id": "find_toy_success",
-      "text": "คุณเข้าไปถามเด็กน้อยจนได้ความว่าทำม้าก้านกล้วยหายไป คุณจึงชวนเด็กไปหาใบตองมาทำม้าก้านกล้วยตัวใหม่ด้วยกัน ไม่นานนัก เสียงร้องไห้ก็เปลี่ยนเป็นเสียงหัวเราะ คุณรู้สึกดีใจที่ได้ช่วยเหลือผู้อื่น",
+      "text": "คุณช่วยเด็กตามหาของเล่นอย่างตั้งใจ จนพบว่าของเล่นอยู่ใต้ต้นไม้ คุณนำคืนให้เด็ก ที่ยิ้มกว้างและขอบคุณคุณอย่างดี คุณรู้สึกดีใจที่ได้ช่วยผู้อื่น",
       "choices": [
         {
           "id": "continue_helping_others",
-          "text": "ส่งเด็กคืนให้ผู้ปกครองแล้วไปร่วมกิจกรรมอื่นต่อ",
-          "nextScene": "rod_nam_dam_hua_elders",
+          "text": "ไปช่วยงานต่อและมองหาโอกาสช่วยคนอื่น",
+          "nextScene": "generic_duty_evening",
           "stats": {
             "xp": 7,
             "items": ["รอยยิ้มของเด็ก", "ความเมตตา"]
@@ -519,138 +668,92 @@
       ],
       "context": {
         "scene": "find_toy_success",
-        "timeOfDay": "afternoon"
-      }
+        "timeOfDay": "afternoon",
+        "location": "courtyard"
+      },
+      "tags": ["help", "child", "kindness", "transition"]
     },
-    "rod_nam_dam_hua_elders": {
-      "id": "rod_nam_dam_hua_elders",
-      "text": "หลังจากนั้น พิธีรดน้ำดำหัวผู้ใหญ่ก็เริ่มขึ้น คุณและเด็กคนอื่นๆ เข้าแถวเพื่อรดน้ำที่มือของเจ้าอาวาสและผู้สูงอายุในชุมชน เพื่อขอพรปีใหม่ ทุกท่านให้พรด้วยใบหน้าที่เปี่ยมไปด้วยความเมตตา",
+    "comfort_child_result": {
+      "id": "comfort_child_result",
+      "text": "คุณปลอบใจเด็กอย่างใจดี แล้วพาไปเล่นกับของเล่นอื่นที่มีอยู่ เด็กหยุดร้องไห้และยิ้มออกมา คุณรู้สึกอบอุ่นใจที่ได้ช่วยให้เด็กมีความสุข",
       "choices": [
         {
-          "id": "receive_blessing",
-          "text": "น้อมรับพรด้วยความเคารพและกล่าวขอบคุณอย่างนอบน้อม",
-          "nextScene": "evening_gathering",
+          "id": "join_other_activities",
+          "text": "ไปร่วมกิจกรรมอื่นๆ ในวัด",
+          "nextScene": "generic_duty_evening",
           "stats": {
-            "xp": 9,
-            "items": ["พรจากผู้ใหญ่", "ความกตัญญู"]
+            "xp": 6,
+            "items": ["รอยยิ้มของเด็ก", "ความเข้าใจ"]
           }
         }
       ],
       "context": {
-        "scene": "rod_nam_dam_hua_elders",
-        "timeOfDay": "afternoon"
-      }
+        "scene": "comfort_child_result",
+        "timeOfDay": "afternoon",
+        "location": "courtyard"
+      },
+      "tags": ["comfort", "child", "understanding", "transition"]
     },
-    "evening_gathering": {
-      "id": "evening_gathering",
-      "text": "ตะวันคล้อยต่ำลงสู่ขอบฟ้า แสงสีส้มสุดท้ายของวันอาบไล้ไปทั่วบริเวณวัด โคมไฟกระดาษถูกจุดขึ้นส่องสว่างไสว สร้างบรรยากาศที่อบอุ่นและงดงาม การแสดงบนเวทีกลางกำลังจะเริ่มขึ้น และอีกด้านหนึ่งก็มีการเตรียมพิธีเวียนเทียน",
+    "special_performance_result": {
+      "id": "special_performance_result",
+      "text": "คุณใช้ความรู้ด้านดนตรีที่ได้เรียนมา แสดงทักษะพิเศษให้ผู้ชมประทับใจ ทุกคนapplaudให้เสียงปรบมือ คุณรู้สึกภูมิใจในตัวเองมาก",
       "choices": [
         {
-          "id": "watch_thai_dance",
-          "text": "ไปนั่งชมการแสดงรำไทยที่เวทีกลาง",
-          "nextScene": "watch_thai_dance_result",
+          "id": "bow_and_work",
+          "text": "กราบขอบคุณผู้ชมแล้วไปช่วยงานต่อ",
+          "nextScene": "generic_duty_evening",
+          "stats": {
+            "xp": 10,
+            "items": ["เสียงปรบมือ"]
+          }
+        }
+      ],
+      "context": {
+        "scene": "special_performance_result",
+        "timeOfDay": "afternoon",
+        "location": "courtyard"
+      },
+      "tags": ["performance", "skill", "praise", "transition"]
+    },
+    "generic_duty_evening": {
+      "id": "generic_duty_evening",
+      "text": "พระอาทิตย์เริ่มตกดิน งานวัดใกล้จะสิ้นสุดลง คุณเหนื่อยแต่รู้สึกภูมิใจในสิ่งที่ได้ทำ ครูบาเรียกนักเรียนทุกคนมารวมตัวกันเพื่อสรุปวันนี้ คุณรู้สึกอย่างไรกับวันที่ผ่านมา?",
+      "choices": [
+        {
+          "id": "feel_proud_and_fulfilled",
+          "text": "ภูมิใจที่ได้ช่วยงานและเรียนรู้",
+          "nextScene": "ending_good_knowledgeable",
           "stats": {
             "xp": 5,
-            "items": ["ความซาบซึ้งในศิลปะ"]
+            "items": []
           }
         },
         {
-          "id": "join_wian_tian",
-          "text": "ไปร่วมพิธีเวียนเทียนรอบพระอุโบสถ",
-          "nextScene": "wian_tian_ceremony",
+          "id": "feel_tired_but_happy",
+          "text": "เหนื่อยแต่มีความสุข",
+          "nextScene": "ending_neutral_participated",
           "stats": {
-            "xp": 8,
-            "items": ["เทียน", "ดอกไม้", "ธูป"]
+            "xp": 3,
+            "items": []
           }
-        }
-      ],
-      "context": {
-        "scene": "evening_gathering",
-        "timeOfDay": "evening"
-      }
-    },
-    "watch_thai_dance_result": {
-      "id": "watch_thai_dance_result",
-      "text": "คุณนั่งชมการแสดงรำอวยพรอย่างเพลิดเพลิน ท่วงท่าที่อ่อนช้อยงดงามและเครื่องแต่งกายที่วิจิตรตระการตาทำให้คุณรู้สึกทึ่งในศิลปะของไทย เมื่อการแสดงจบลง คุณรู้สึกอิ่มเอมใจ",
-      "choices": [
+        },
         {
-          "id": "reflect_on_the_day",
-          "text": "นั่งทบทวนเรื่องราวดีๆ ที่เกิดขึ้นในวันนี้",
-          "nextScene": "final_blessing",
+          "id": "feel_bored_and_wish_to_play",
+          "text": "รู้สึกเบื่อและอยากไปเล่นมากกว่า",
+          "nextScene": "ending_bad_playful",
           "stats": {
-            "xp": 4,
+            "xp": 1,
             "items": []
           }
         }
       ],
       "context": {
-        "scene": "watch_thai_dance_result",
-        "timeOfDay": "evening"
-      }
-    },
-    "wian_tian_ceremony": {
-      "id": "wian_tian_ceremony",
-      "text": "คุณรับเทียน ธูป และดอกไม้ แล้วเดินเข้าสู่ขบวนเวียนเทียน แสงเทียนส่องสว่างในความมืด เสียงสวดมนต์ของพระสงฆ์ดังกังวาน คุณเดินเวียนเทียนรอบพระอุโบสถ 3 รอบด้วยจิตใจที่สงบและเป็นสมาธิ",
-      "choices": [
-        {
-          "id": "meditate_and_wish",
-          "text": "ตั้งจิตอธิษฐานขอพรให้ตนเองและครอบครัว",
-          "nextScene": "final_blessing",
-          "stats": {
-            "xp": 9,
-            "items": ["บุญกุศล", "ความสงบใจ"]
-          }
-        }
-      ],
-      "context": {
-        "scene": "wian_tian_ceremony",
-        "timeOfDay": "evening"
-      }
-    },
-    "final_blessing": {
-      "id": "final_blessing",
-      "text": "ค่ำคืนดำเนินมาถึงช่วงสุดท้าย กิจกรรมต่างๆ ได้เสร็จสิ้นลง แต่ความประทับใจยังคงอยู่ในใจของคุณ ขณะที่คุณกำลังจะเดินทางกลับ ท่านเจ้าอาวาสได้เดินเข้ามาหาด้วยรอยยิ้ม 'อาตมาเฝ้าดูเจ้ามาทั้งวันแล้ว' ท่านกล่าว 'วันนี้เจ้าได้สิ่งใดกลับไปบ้าง?'",
-      "choices": [
-        {
-          "id": "learned_tradition",
-          "text": "ตอบว่า 'ได้เรียนรู้ถึงคุณค่าของประเพณี และความสุขจากการให้และช่วยเหลือผู้อื่นครับ/ค่ะ'",
-          "nextScene": "ending_culture_successor",
-          "stats": {
-            "xp": 10
-          }
-        },
-        {
-          "id": "feel_proud_and_fulfilled",
-          "text": "ตอบว่า 'รู้สึกภูมิใจที่ได้ช่วยงานวัดและได้ทำบุญมากมายครับ/ค่ะ'",
-          "nextScene": "ending_good_knowledgeable",
-          "stats": {
-            "xp": 5
-          }
-        },
-        {
-          "id": "feel_tired_but_happy",
-          "text": "ตอบว่า 'เหนื่อยแต่ก็สนุกมากครับ/ค่ะ ได้เจอเพื่อนๆ และได้ทำกิจกรรมเยอะแยะเลย'",
-          "nextScene": "ending_neutral_participated",
-          "stats": {
-            "xp": 3
-          }
-        }
-      ],
-      "context": {
-        "scene": "final_blessing",
+        "scene": "generic_duty_evening",
         "timeOfDay": "evening",
+        "location": "courtyard",
         "isFinalScene": true
-      }
-    },
-    "ending_culture_successor": {
-      "id": "ending_culture_successor",
-      "text": "",
-      "choices": [],
-      "context": {
-        "scene": "ending_culture_successor",
-        "isEnding": true,
-        "endingKey": "culture_successor"
-      }
+      },
+      "tags": ["evening", "reflection", "ending"]
     },
     "ending_good_knowledgeable": {
       "id": "ending_good_knowledgeable",
@@ -671,23 +774,217 @@
         "isEnding": true,
         "endingKey": "neutral_participated"
       }
+    },
+    "ending_bad_playful": {
+      "id": "ending_bad_playful",
+      "text": "",
+      "choices": [],
+      "context": {
+        "scene": "ending_bad_playful",
+        "isEnding": true,
+        "endingKey": "bad_playful"
+      }
+    },
+    "mini_game_hub": {
+      "id": "mini_game_hub",
+      "text": "คุณเดินไปยังมุมลานที่มีพ่อค้าจัดเกมเล็กๆ ไว้ คุณเห็นเกม \"ปาเหรียญใส่จาน\" และ \"ทายภาพโบราณวัตถุ\" คุณอยากเล่นเกมไหน?",
+      "choices": [
+        {
+          "id": "play_coin_toss",
+          "text": "เล่นเกม \"ปาเหรียญใส่จาน\"",
+          "nextScene": "mini_game_coin_toss_intro",
+          "stats": {
+            "xp": 1,
+            "items": []
+          }
+        },
+        {
+          "id": "play_guess_artifact",
+          "text": "เล่นเกม \"ทายภาพโบราณวัตถุ\"",
+          "nextScene": "mini_game_guess_artifact_intro",
+          "stats": {
+            "xp": 1,
+            "items": []
+          }
+        },
+        {
+          "id": "leave_mini_games",
+          "text": "กลับไปช่วยงานวัดต่อ",
+          "nextScene": "temple_courtyard_afternoon",
+          "stats": {
+            "xp": 1,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "mini_game_hub",
+        "timeOfDay": "morning",
+        "location": "market"
+      },
+      "tags": ["mini-game", "hub", "transition"]
+    },
+    "mini_game_coin_toss_intro": {
+      "id": "mini_game_coin_toss_intro",
+      "text": "คุณเลือกเล่นเกม \"ปาเหรียญใส่จาน\" พ่อค้าอธิบายกฎว่า \"คุณมี 5 ลูกเหรียญ ปาให้เข้าจานให้ได้มากที่สุด คุณจะได้รางวัลตามจำนวนจานที่ปาเข้า\"",
+      "choices": [
+        {
+          "id": "start_coin_toss_game",
+          "text": "เริ่มเล่น!",
+          "nextScene": "mini_game_coin_toss_playing",
+          "stats": {
+            "xp": 0,
+            "items": []
+          }
+        },
+        {
+          "id": "back_to_mini_game_hub",
+          "text": "กลับไปเลือกเกมอื่น",
+          "nextScene": "mini_game_hub",
+          "stats": {
+            "xp": 0,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "mini_game_coin_toss_intro",
+        "timeOfDay": "morning",
+        "location": "market",
+        "miniGameType": "coinToss"
+      },
+      "tags": ["mini-game", "coin-toss", "intro"]
+    },
+    "mini_game_guess_artifact_intro": {
+      "id": "mini_game_guess_artifact_intro",
+      "text": "คุณเลือกเล่นเกม \"ทายภาพโบราณวัตถุ\" พ่อค้าอธิบายกฎว่า \"ฉันจะอธิบายลักษณะของโบราณวัตถุชิ้นหนึ่ง คุณต้องทายว่ามันคืออะไรจากตัวเลือกที่ให้มา\"",
+      "choices": [
+        {
+          "id": "start_guess_artifact_game",
+          "text": "เริ่มเล่น!",
+          "nextScene": "mini_game_guess_artifact_playing",
+          "stats": {
+            "xp": 0,
+            "items": []
+          }
+        },
+        {
+          "id": "back_to_mini_game_hub_2",
+          "text": "กลับไปเลือกเกมอื่น",
+          "nextScene": "mini_game_hub",
+          "stats": {
+            "xp": 0,
+            "items": []
+          }
+        }
+      ],
+      "context": {
+        "scene": "mini_game_guess_artifact_intro",
+        "timeOfDay": "morning",
+        "location": "market",
+        "miniGameType": "guessArtifact"
+      },
+      "tags": ["mini-game", "guess-artifact", "intro"]
     }
   },
   "endings": {
-    "culture_successor": {
-      "type": "best",
-      "title": "ผู้สืบสานวัฒนธรรม",
-      "text": "เจ้าอาวาสยิ้มอย่างพึงพอใจ 'ดีมาก จิตใจที่เห็นคุณค่าของรากเหง้าเช่นเจ้านี่แหละ คืออนาคตของวัฒนธรรมของเรา' ท่านมอบพระเครื่ององค์เล็กๆ ให้เป็นที่ระลึก คุณคือความหวังในการสืบสานประเพณีอันดีงามของไทยสืบต่อไป"
-    },
     "good_knowledgeable": {
       "type": "good",
-      "title": "นักเรียนผู้มีจิตอาสา",
-      "text": "ท่านเจ้าอาวาสกล่าวชม 'ความขยันและมีน้ำใจของเจ้าเป็นที่น่าชื่นชม การทำบุญด้วยแรงกายและจิตใจที่บริสุทธิ์ย่อมได้กุศลยิ่ง' คุณรู้สึกภาคภูมิใจในตนเอง และได้รับตำแหน่ง 'นักเรียนผู้มีจิตอาสา'!"
+      "title": "นักเรียนผู้มีความรู้",
+      "text": "คุณช่วยงานวัดอย่างขยัน มีความรู้เกี่ยวกับพิธีกรรมและประเพณีไทย ทุกคนชื่นชมในตัวคุณ! คุณได้รับตำแหน่ง \"นักเรียนผู้มีความรู้\" แล้ว"
     },
     "neutral_participated": {
       "type": "neutral",
-      "title": "ผู้ร่วมงานสงกรานต์",
-      "text": "ท่านเจ้าอาวาสยิ้ม 'การได้มาสนุกสนานและร่วมเป็นส่วนหนึ่งของประเพณีก็เป็นเรื่องที่ดีแล้ว' วันสงกรานต์ของคุณผ่านไปอย่างมีความสุข คุณได้รับตำแหน่ง 'ผู้ร่วมงานสงกรานต์'!"
+      "title": "ผู้มีส่วนร่วม",
+      "text": "คุณได้ร่วมกิจกรรมและเรียนรู้บางสิ่งบางอย่าง วันสงกรานต์ผ่านไปอย่างดี คุณได้รับตำแหน่ง \"ผู้มีส่วนร่วม\" แล้ว"
+    },
+    "bad_playful": {
+      "type": "bad",
+      "title": "นักเล่นซน",
+      "text": "คุณมีแนวโน้มที่จะเล่นมากกว่าเรียน แต่ไม่เป็นไร! วัฒนธรรมไทยมีมากมายให้ค้นคว้า ลองกลับมาเรียนรู้อีกครั้งนะ คุณได้รับตำแหน่ง \"นักเล่นซน\" ชั่วคราว"
     }
+  },
+  "achievements": {
+    "first_steps": {
+      "id": "first_steps",
+      "title": "ก้าวแรกสู่วัด",
+      "description": "เริ่มต้นการผจญภัยในวัดไทยโบราณ",
+      "icon": "👣"
+    },
+    "helping_hand": {
+      "id": "helping_hand",
+      "title": "มือปราบดี",
+      "description": "ช่วยงานวัดอย่างขยัน",
+      "icon": "🤝"
+    },
+    "knowledge_seeker": {
+      "id": "knowledge_seeker",
+      "title": "ผู้แสวงหาความรู้",
+      "description": "เรียนรู้เกี่ยวกับวัฒนธรรมไทยอย่างลึกซึ้ง",
+      "icon": "📚"
+    },
+    "fun_lover": {
+      "id": "fun_lover",
+      "title": "คนรักความสนุก",
+      "description": "สนุกกับกิจกรรมต่างๆ ในงานวัด",
+      "icon": "🎉"
+    },
+    "mini_game_master": {
+      "id": "mini_game_master",
+      "title": "ปรมาจารย์เกมเล็ก",
+      "description": "เล่น Mini-game จนครบทุกเกม",
+      "icon": "🎮"
+    },
+    "collector": {
+      "id": "collector",
+      "title": "นักสะสม",
+      "description": "สะสมไอเท็มหลากหลายชนิด",
+      "icon": "🎒"
+    },
+    "tradition_keeper": {
+      "id": "tradition_keeper",
+      "title": "ผู้รักษาประเพณี",
+      "description": "มีไอเท็มเกี่ยวกับประเพณีไทยมากกว่า 3 ชิ้น",
+      "icon": "🏮"
+    },
+    "merit_maker": {
+      "id": "merit_maker",
+      "title": "ผู้สร้างบุญ",
+      "description": "มีไอเท็ม \"บุญ\" หรือ \"บุญพิเศษ\"",
+      "icon": "🪷"
+    },
+    "performance_star": {
+      "id": "performance_star",
+      "title": "ดาวแห่งการแสดง",
+      "description": "มีไอเท็ม \"เสียงปรบมือ\" และ \"ความมั่นใจ\"",
+      "icon": "⭐"
+    }
+  },
+  "miniGames": {
+    "coinToss": {
+      "name": "ปาเหรียญใส่จาน",
+      "description": "ปาเหรียญให้เข้าจานให้ได้มากที่สุด",
+      "rules": "คุณมี 5 ลูกเหรียญ ปาให้เข้าจานให้ได้มากที่สุด",
+      "reward": {
+        "xp": 5,
+        "items": ["เหรียญโชคดี"]
+      }
+    },
+    "guessArtifact": {
+      "name": "ทายภาพโบราณวัตถุ",
+      "description": "ทายว่าโบราณวัตถุชิ้นนี้คืออะไร",
+      "rules": "อ่านคำอธิบายแล้วเลือกคำตอบที่ถูกต้อง",
+      "reward": {
+        "xp": 7,
+        "items": ["ความรู้โบราณ"]
+      }
+    }
+  },
+  "items": {
+    "ritual": ["บาตร", "ผ้าคลุมบาตร", "ดอกไม้จันทน์", "น้ำมนต์", "ธูป", "เทียนชัย", "ผ้าพันแผล"],
+    "food": ["ขนมตาล", "ข้าวต้มมัด", "น้ำอัดลมโบราณ", "ขนมสายไหม", "อาหารเช้า", "ขนมครก"],
+    "toy": ["ลูกข่าง", "ว่าว", "ตุ๊กตาไม้", "ตั๋วชิงช้าสวรรค์"],
+    "abstract": ["บุญ", "บุญพิเศษ", "ความรู้", "ความสนุก", "รอยยิ้มของเด็ก", "ความเมตตา", "ความเข้าใจ", "ความรับผิดชอบ", "พรจากผู้ใหญ่", "บทเรียน", "ความอร่อย", "เหงื่อ", "เสียงหัวเราะ", "ความรู้เกี่ยวกับประเพณี", "ความรู้ด้านดนตรี", "เสียงปรบมือ", "ความมั่นใจ", "เหรียญโชคดี", "ความรู้โบราณ"],
+    "special": ["ตะกรุด", "ผ้าไหม", "เหรียญรางวัล", "เครื่องดนตรีไทย", "ดอกบัว"]
   }
 }

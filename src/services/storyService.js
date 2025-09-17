@@ -420,28 +420,48 @@
 
 // src/services/storyService.js
 // บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON แทน Groq API
+// src/services/storyService.js
+// บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON แทน Groq API
+// src/services/storyService.js
+// บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
+// src/services/storyService.js
+// บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
+// src/services/storyService.js
+// บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
 
-// --- Import ข้อมูล JSON ---
 import storyData from '../data/story.json';
 
-// --- ตัวอย่างเนื้อหาสำรอง (กรณี JSON ผิดพลาด) ---
+// --- ตัวอย่างเนื้อหาสำรอง ---
 const DEFAULT_OPENING_STORY = {
   text: "สวัสดี {playerName}! ยินดีต้อนรับสู่วันสงกรานต์ที่วัดแห่งหนึ่ง...",
   choices: [
-    { id: 'default_choice_1', text: "เริ่มผจญภัย", nextScene: "generic_duty_evening" },
-    { id: 'default_choice_2', text: "ไปช่วยงานวัด", nextScene: "generic_duty_evening" }
+    { id: 'default_choice_1', text: "เริ่มผจญภัย", nextScene: "temple_market_morning" },
+    { id: 'default_choice_2', text: "ไปช่วยงานวัด", nextScene: "temple_market_morning" }
   ],
   context: { scene: "default_opening", playerName: "{playerName}" }
 };
 
+// --- ฟังก์ชันช่วยสำหรับการจัดการ Item ---
+const hasRequiredItems = (playerItems, requiredItems) => {
+  if (!requiredItems || requiredItems.length === 0) return true;
+  return requiredItems.every(reqItem => playerItems.includes(reqItem));
+};
+
+const filterChoicesByRequirements = (choices, playerStats) => {
+  if (!choices || !Array.isArray(choices)) return [];
+  return choices.filter(choice => {
+    const reqItems = choice.requiredItems || [];
+    const reqXp = choice.requiredXp || 0;
+    return hasRequiredItems(playerStats.items, reqItems) && playerStats.xp >= reqXp;
+  });
+};
+
 // --- ระบบ Ending ---
 export const determineEnding = (endingKey) => {
-  // ดึงข้อมูล ending จาก JSON
   const endingDetails = storyData.endings[endingKey];
   if (endingDetails) {
     return endingDetails;
   }
-  // ถ้าไม่มีใน JSON ให้ใช้ default
   console.warn(`[StoryService] Ending key '${endingKey}' not found in JSON. Using default.`);
   return storyData.endings.neutral_participated || {
     type: "neutral",
@@ -450,12 +470,30 @@ export const determineEnding = (endingKey) => {
   };
 };
 
+// --- ฟังก์ชันสำหรับเตรียมระบบ Setting ---
+// ฟังก์ชันเหล่านี้จะถูกเรียกใน Game.jsx เพื่อเตรียมข้อมูล
+// แม้ในเวอร์ชัน JSON นี้จะยังไม่ได้เปิดใช้งานเต็มที่ แต่เตรียมโครงสร้างไว้
+export const prepareHumorMode = (isEnabled) => {
+  // ในเวอร์ชัน JSON นี้ เราไม่ได้ใช้ humor mode จริงๆ
+  // แต่สามารถเตรียม logic ไว้สำหรับเวอร์ชันอนาคต
+  console.log(`[StoryService] Humor Mode is ${isEnabled ? 'enabled' : 'disabled'} (not implemented in JSON version)`);
+  return isEnabled;
+};
+
+export const prepareAdaptiveStory = (isEnabled, playerStats) => {
+  // ในเวอร์ชัน JSON นี้ เราไม่ได้ใช้ adaptive story จริงๆ
+  // แต่สามารถเตรียม logic ไว้สำหรับเวอร์ชันอนาคต
+  // เช่น วิเคราะห์ไอเท็มที่ผู้เล่นมีมากที่สุด แล้วเลือกเส้นทางที่เหมาะสม
+  console.log(`[StoryService] Adaptive Story is ${isEnabled ? 'enabled' : 'disabled'} (not implemented in JSON version)`);
+  console.log(`[StoryService] Player Stats for Adaptation:`, playerStats);
+  return isEnabled;
+};
+
 // --- ฟังก์ชันหลัก ---
 export const initializeStory = async (playerName) => {
   try {
     console.log(`[StoryService] Initializing story for player: ${playerName} (from JSON)`);
     
-    // ใช้ scene เริ่มต้นจาก JSON
     const startSceneKey = "temple_courtyard_morning";
     let startScene = storyData.scenes[startSceneKey];
 
@@ -463,7 +501,6 @@ export const initializeStory = async (playerName) => {
       throw new Error(`Start scene '${startSceneKey}' not found in JSON data.`);
     }
 
-    // แทนที่ {playerName} ในข้อความ
     const storyText = startScene.text.replace('{playerName}', playerName);
 
     console.log('[StoryService] Successfully loaded initial story from JSON');
@@ -475,7 +512,6 @@ export const initializeStory = async (playerName) => {
 
   } catch (error) {
     console.error('[StoryService] Error in initializeStory (JSON):', error);
-    // Fallback ถ้า JSON มีปัญหา
     return {
       ...DEFAULT_OPENING_STORY,
       text: DEFAULT_OPENING_STORY.text.replace('{playerName}', playerName),
@@ -484,9 +520,9 @@ export const initializeStory = async (playerName) => {
   }
 };
 
-export const makeChoice = async (choiceId, currentContext) => {
+export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0, items: [] }) => {
   try {
-    console.log(`[StoryService] Making choice: ${choiceId} (from JSON)`);
+    console.log(`[StoryService] Making choice: ${choiceId} (from JSON) for player stats:`, playerStats);
     
     const currentPlayerName = currentContext.playerName;
     const currentSceneKey = currentContext.scene;
@@ -501,17 +537,15 @@ export const makeChoice = async (choiceId, currentContext) => {
       throw new Error(`Current scene '${currentSceneKey}' not found in JSON data.`);
     }
 
-    // หาตัวเลือกที่ผู้เล่นเลือก
     const selectedChoice = currentScene.choices.find(choice => choice.id === choiceId);
 
     if (!selectedChoice) {
       console.warn(`[StoryService] Choice '${choiceId}' not found in scene '${currentSceneKey}'.`);
-      // กรณีผิดพลาด
       return {
         story: {
           text: "เกิดข้อผิดพลาด... แต่เรื่องราวก็ยังดำเนินต่อไป",
           choices: [
-            { id: 'continue_anyway', text: "ดำเนินเรื่องต่อ", nextScene: "generic_duty_evening" }
+            { id: 'continue_anyway', text: "ดำเนินเรื่องต่อ", nextScene: "temple_market_morning" }
           ],
           context: currentContext
         },
@@ -520,12 +554,27 @@ export const makeChoice = async (choiceId, currentContext) => {
       };
     }
 
-    // หา scene ถัดไปจาก JSON
+    // ตรวจสอบเงื่อนไขของตัวเลือก
+    const reqItems = selectedChoice.requiredItems || [];
+    const reqXp = selectedChoice.requiredXp || 0;
+    if (!hasRequiredItems(playerStats.items, reqItems) || playerStats.xp < reqXp) {
+        console.warn(`[StoryService] Player does not meet requirements for choice '${choiceId}'.`);
+        return {
+          story: {
+            text: currentScene.text.replace('{playerName}', currentPlayerName) + "\n\n(คุณยังไม่มีคุณสมบัติที่จำเป็นสำหรับตัวเลือกนี้)",
+            choices: currentScene.choices,
+            context: currentContext
+          },
+          stats: { xp: 0, items: [] },
+          gameEnded: false,
+          requirementNotMet: true
+        };
+    }
+
     const nextSceneKey = selectedChoice.nextScene;
     
     if (!nextSceneKey) {
-      console.warn(`[StoryService] Next scene key is null/undefined for choice '${choiceId}'.`);
-      // ถ้าไม่มี scene ถัดไป ให้จบเกม
+      console.warn(`[StoryService] Next scene key is null/undefined for choice '${choiceId}'. Ending game.`);
       return createEndingResult(selectedChoice, currentContext);
     }
 
@@ -533,14 +582,11 @@ export const makeChoice = async (choiceId, currentContext) => {
 
     if (!nextSceneData) {
        console.warn(`[StoryService] Next scene '${nextSceneKey}' not found in JSON. Ending game.`);
-       // ถ้า scene ถัดไปไม่มีใน JSON ให้จบเกม
        return createEndingResult(selectedChoice, currentContext);
     }
 
-    // แทนที่ {playerName} ใน scene ใหม่
     const nextStoryText = nextSceneData.text.replace('{playerName}', currentPlayerName);
 
-    // ตรวจสอบว่าเป็น scene สุดท้ายหรือไม่
     const isEndingScene = nextSceneData.context?.isEnding;
     let gameEnded = false;
     let endingKey = null;
@@ -551,26 +597,27 @@ export const makeChoice = async (choiceId, currentContext) => {
         console.log(`[StoryService] Game ending triggered. Key: ${endingKey}`);
     }
 
+    const filteredChoices = filterChoicesByRequirements(nextSceneData.choices, playerStats);
+
     console.log('[StoryService] Successfully processed choice from JSON');
     return {
       story: {
         text: nextStoryText,
-        choices: nextSceneData.choices,
+        choices: filteredChoices,
         context: { ...nextSceneData.context, playerName: currentPlayerName, previousChoice: choiceId }
       },
       stats: selectedChoice.stats || { xp: 0, items: [] },
       gameEnded: gameEnded,
-      endingKey: endingKey // ส่ง key กลับไป ให้ Game.jsx หาข้อมูล ending
+      endingKey: endingKey
     };
 
   } catch (error) {
     console.error('[StoryService] Error in makeChoice (JSON):', error);
-    // Fallback ถ้า JSON มีปัญหา
     return {
       story: {
         text: "เกิดข้อผิดพลาดในการดำเนินเรื่อง... แต่เรื่องราวก็ยังดำเนินต่อไป",
         choices: [
-          { id: 'continue_anyway', text: "ดำเนินเรื่องต่อ", nextScene: "generic_duty_evening" }
+          { id: 'continue_anyway', text: "ดำเนินเรื่องต่อ", nextScene: "temple_market_morning" }
         ],
         context: currentContext
       },
@@ -582,7 +629,6 @@ export const makeChoice = async (choiceId, currentContext) => {
 
 // --- ฟังก์ชันช่วยสำหรับการจบเกม ---
 const createEndingResult = (selectedChoice, currentContext) => {
-    // สมมุติว่าถ้าไม่มี scene ถัดไป ให้จบเกมแบบกลาง
     const endingKey = currentContext.previousChoice === 'feel_proud_and_fulfilled' ? 'good_knowledgeable' : 
                       currentContext.previousChoice === 'feel_bored_and_wish_to_play' ? 'bad_playful' : 
                       'neutral_participated';
@@ -590,7 +636,7 @@ const createEndingResult = (selectedChoice, currentContext) => {
     return {
         story: {
           text: "เรื่องราวดำเนินไป... และวันสงกรานต์ก็ใกล้จะจบลง",
-          choices: [], // ไม่มีตัวเลือกเพราะจบแล้ว
+          choices: [],
           context: { ...currentContext, previousChoice: selectedChoice.id }
         },
         stats: selectedChoice.stats || { xp: 0, items: [] },
