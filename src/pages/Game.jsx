@@ -4,13 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import {
   initializeStory,
   makeChoice,
-  determineEnding,
-  prepareHumorMode,
-  prepareAdaptiveStory
+  determineEnding
 } from '../services/storyService';
-import { 
-  initializeGameData, 
-  unlockAchievement, 
+import {
+  unlockAchievement,
   loadUnlockedAchievements,
   saveGameProgress,
   loadGameProgress,
@@ -31,38 +28,16 @@ const Game = () => {
   const [newlyUnlockedAchievement, setNewlyUnlockedAchievement] = useState(null);
 
   const playerName = localStorage.getItem('thaiGame_playerName') || 'นักเรียน';
-  const humorMode = localStorage.getItem('thaiGame_humorMode') === 'true';
-  const adaptiveStory = localStorage.getItem('thaiGame_adaptiveStory') === 'true';
 
   useEffect(() => {
     const startGame = async () => {
       try {
         setError(null);
-        
-        // เตรียมระบบ Setting
-        prepareHumorMode(humorMode);
-        prepareAdaptiveStory(adaptiveStory, stats);
-        
-        // โหลดข้อมูลเกม (เช่น Achievements ที่ปลดล็อคแล้ว)
-        const gameData = initializeGameData();
-        setUnlockedAchievements(gameData.unlockedAchievements);
-        
-        // ตรวจสอบว่ามีเกมที่บันทึกไว้หรือไม่
-        const savedGameState = loadGameProgress();
-        if (savedGameState) {
-          // โหลดเกมที่บันทึกไว้
-          setStoryData(savedGameState.storyData);
-          setStats(savedGameState.stats);
-          console.log('[Game] Loaded saved game state.');
-        } else {
-          // เริ่มเกมใหม่
-          const initialStory = await initializeStory(playerName);
-          setStoryData(initialStory);
-          // Unlock achievement แรก
-          const firstAchievement = unlockAchievement('first_steps', unlockedAchievements, setUnlockedAchievements);
-          if (firstAchievement) {
-            setNewlyUnlockedAchievement(firstAchievement);
-          }
+        const initialStory = await initializeStory(playerName);
+        setStoryData(initialStory);
+        const firstAchievement = unlockAchievement('first_steps', [], setUnlockedAchievements);
+        if (firstAchievement) {
+          setNewlyUnlockedAchievement(firstAchievement);
         }
       } catch (err) {
         console.error('Failed to start game:', err);
@@ -87,11 +62,10 @@ const Game = () => {
       setError(null);
       try {
         setStats({ xp: 0, items: [] });
-        setUnlockedAchievements(loadUnlockedAchievements()); // รีเซ็ต achievements
-        clearSavedGame(); // ลบเกมที่บันทึกไว้
+        setUnlockedAchievements(loadUnlockedAchievements());
+        clearSavedGame();
         const initialStory = await initializeStory(playerName);
         setStoryData(initialStory);
-        // Unlock achievement แรก
         const firstAchievement = unlockAchievement('first_steps', loadUnlockedAchievements(), setUnlockedAchievements);
         if (firstAchievement) {
             setNewlyUnlockedAchievement(firstAchievement);
@@ -106,24 +80,17 @@ const Game = () => {
 
     setLoading(true);
     setError(null);
-    setNewlyUnlockedAchievement(null); // ล้าง notification เก่า
+    setNewlyUnlockedAchievement(null);
     try {
-      const result = await makeChoice(choiceId, storyData.context, stats);
-      
-      // อัปเดต stats
-      let updatedStats = stats;
+      const result = await makeChoice(choiceId, storyData.context);
+
       if (result.stats) {
-        updatedStats = {
-          xp: stats.xp + (result.stats.xp || 0),
-          items: [...stats.items, ...(result.stats.items || [])]
-        };
-        setStats(updatedStats);
-        
-        // ตรวจสอบและปลดล็อค Achievements ใหม่
-        checkAndUnlockAchievements(updatedStats, choiceId, result);
+        setStats(prevStats => ({
+          xp: prevStats.xp + (result.stats.xp || 0),
+          items: [...prevStats.items, ...(result.stats.items || [])]
+        }));
       }
 
-      // ตรวจสอบว่าเกมจบหรือไม่
       if (result.gameEnded) {
         const endingDetails = determineEnding(result.endingKey);
         setStoryData({
@@ -132,22 +99,16 @@ const Game = () => {
           gameEnded: true,
           ending: endingDetails
         });
-      } else if (result.requirementNotMet) {
-        setStoryData({
-          text: result.story.text,
-          choices: result.story.choices,
-          context: result.story.context,
-          requirementNotMet: true
-        });
       } else {
         setStoryData(result.story);
       }
-      
-      // บันทึกความคืบหน้าของเกม
+
       saveGameProgress({
         storyData: result.story,
-        stats: updatedStats,
-        unlockedAchievements: unlockedAchievements // หรือดึงจาก state ล่าสุด
+        stats: {
+          xp: stats.xp + (result.stats?.xp || 0),
+          items: [...stats.items, ...(result.stats?.items || [])]
+        }
       });
 
     } catch (err) {
@@ -166,50 +127,6 @@ const Game = () => {
     }
   };
 
-  const checkAndUnlockAchievements = (currentStats, choiceId, result) => {
-    // ตัวอย่าง: ปลดล็อค "helping_hand" ถ้า XP > 10
-    if (currentStats.xp > 10 && !unlockedAchievements.includes('helping_hand')) {
-      const achievement = unlockAchievement('helping_hand', unlockedAchievements, setUnlockedAchievements);
-      if (achievement) {
-        setNewlyUnlockedAchievement(achievement);
-      }
-    }
-    
-    // ตัวอย่าง: ปลดล็อค "knowledge_seeker" ถ้ามีไอเท็ม "ความรู้" > 1
-    const knowledgeItems = currentStats.items.filter(item => item.includes('รู้')).length;
-    if (knowledgeItems > 1 && !unlockedAchievements.includes('knowledge_seeker')) {
-      const achievement = unlockAchievement('knowledge_seeker', unlockedAchievements, setUnlockedAchievements);
-      if (achievement) {
-        setNewlyUnlockedAchievement(achievement);
-      }
-    }
-    
-    // ตัวอย่าง: ปลดล็อค "fun_lover" ถ้ามีไอเท็ม "สนุก" > 1
-    const funItems = currentStats.items.filter(item => item.includes('สนุก')).length;
-    if (funItems > 1 && !unlockedAchievements.includes('fun_lover')) {
-      const achievement = unlockAchievement('fun_lover', unlockedAchievements, setUnlockedAchievements);
-      if (achievement) {
-        setNewlyUnlockedAchievement(achievement);
-      }
-    }
-    
-    // ตัวอย่าง: ปลดล็อค "collector" ถ้ามีไอเท็มทั้งหมด > 5
-    if (currentStats.items.length > 5 && !unlockedAchievements.includes('collector')) {
-      const achievement = unlockAchievement('collector', unlockedAchievements, setUnlockedAchievements);
-      if (achievement) {
-        setNewlyUnlockedAchievement(achievement);
-      }
-    }
-    
-    // ตัวอย่าง: ปลดล็อค "mini_game_master" ถ้าเล่น mini-game
-    if (result.story.context?.miniGameType && !unlockedAchievements.includes('mini_game_master')) {
-      const achievement = unlockAchievement('mini_game_master', unlockedAchievements, setUnlockedAchievements);
-      if (achievement) {
-        setNewlyUnlockedAchievement(achievement);
-      }
-    }
-  };
-
   const handleRestart = () => {
     navigate('/');
   };
@@ -223,7 +140,7 @@ const Game = () => {
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="text-4xl mb-4">🔄</div>
         <h2 className="text-2xl font-bold text-gray-800">กำลังโหลดเนื้อเรื่อง...</h2>
-        <p className="text-gray-600 mt-2">กำลังเตรียมการผจญภัยให้คุณ</p>
+        <p className="text-gray-600 mt-2">AI กำลังแต่งเรื่องราวให้คุณ</p>
       </div>
     );
   }
@@ -259,7 +176,6 @@ const Game = () => {
           <div className="bg-amber-50 rounded-lg p-4 mb-6 text-left">
             <h3 className="font-bold text-amber-800 mb-2">สถิติของคุณ:</h3>
             <p>คะแนนประสบการณ์: {stats.xp}</p>
-            <p>ไอเท็มที่ได้รับ: {stats.items.length > 0 ? stats.items.join(', ') : 'ไม่มี'}</p>
             <p>Achievements ที่ปลดล็อค: {unlockedAchievements.length}</p>
           </div>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -282,16 +198,15 @@ const Game = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-2xl relative">
-      {/* Notification สำหรับ Achievement ใหม่ */}
+    <div className="container mx-auto px-4 py-6 max-w-2xl">
       {newlyUnlockedAchievement && (
-        <AchievementNotification 
-          achievement={newlyUnlockedAchievement} 
-          onClose={closeAchievementNotification} 
+        <AchievementNotification
+          achievement={newlyUnlockedAchievement}
+          onClose={closeAchievementNotification}
         />
       )}
-      
-      <PlayerStats playerName={playerName} xp={stats.xp} items={stats.items} unlockedAchievements={unlockedAchievements} />
+
+      <PlayerStats playerName={playerName} xp={stats.xp} unlockedAchievements={unlockedAchievements} />
 
       {error && (
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -300,13 +215,12 @@ const Game = () => {
       )}
 
       <div className="bg-white rounded-xl shadow-lg p-5 sm:p-6 mb-6 transition-all duration-300">
-        <StoryDisplay storyText={storyData.text} items={stats.items} />
+        <StoryDisplay storyText={storyData.text} />
 
         <ChoiceButtons
           choices={storyData.choices}
           onChoose={handleChoice}
           loading={loading}
-          requirementNotMet={storyData.requirementNotMet}
         />
       </div>
 

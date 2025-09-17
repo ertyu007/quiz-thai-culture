@@ -428,10 +428,12 @@
 // บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
 // src/services/storyService.js
 // บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
+// src/services/storyService.js
 
+
+// src/services/storyService.js
 import storyData from '../data/story.json';
 
-// --- ตัวอย่างเนื้อหาสำรอง ---
 const DEFAULT_OPENING_STORY = {
   text: "สวัสดี {playerName}! ยินดีต้อนรับสู่วันสงกรานต์ที่วัดแห่งหนึ่ง...",
   choices: [
@@ -441,22 +443,6 @@ const DEFAULT_OPENING_STORY = {
   context: { scene: "default_opening", playerName: "{playerName}" }
 };
 
-// --- ฟังก์ชันช่วยสำหรับการจัดการ Item ---
-const hasRequiredItems = (playerItems, requiredItems) => {
-  if (!requiredItems || requiredItems.length === 0) return true;
-  return requiredItems.every(reqItem => playerItems.includes(reqItem));
-};
-
-const filterChoicesByRequirements = (choices, playerStats) => {
-  if (!choices || !Array.isArray(choices)) return [];
-  return choices.filter(choice => {
-    const reqItems = choice.requiredItems || [];
-    const reqXp = choice.requiredXp || 0;
-    return hasRequiredItems(playerStats.items, reqItems) && playerStats.xp >= reqXp;
-  });
-};
-
-// --- ระบบ Ending ---
 export const determineEnding = (endingKey) => {
   const endingDetails = storyData.endings[endingKey];
   if (endingDetails) {
@@ -470,30 +456,9 @@ export const determineEnding = (endingKey) => {
   };
 };
 
-// --- ฟังก์ชันสำหรับเตรียมระบบ Setting ---
-// ฟังก์ชันเหล่านี้จะถูกเรียกใน Game.jsx เพื่อเตรียมข้อมูล
-// แม้ในเวอร์ชัน JSON นี้จะยังไม่ได้เปิดใช้งานเต็มที่ แต่เตรียมโครงสร้างไว้
-export const prepareHumorMode = (isEnabled) => {
-  // ในเวอร์ชัน JSON นี้ เราไม่ได้ใช้ humor mode จริงๆ
-  // แต่สามารถเตรียม logic ไว้สำหรับเวอร์ชันอนาคต
-  console.log(`[StoryService] Humor Mode is ${isEnabled ? 'enabled' : 'disabled'} (not implemented in JSON version)`);
-  return isEnabled;
-};
-
-export const prepareAdaptiveStory = (isEnabled, playerStats) => {
-  // ในเวอร์ชัน JSON นี้ เราไม่ได้ใช้ adaptive story จริงๆ
-  // แต่สามารถเตรียม logic ไว้สำหรับเวอร์ชันอนาคต
-  // เช่น วิเคราะห์ไอเท็มที่ผู้เล่นมีมากที่สุด แล้วเลือกเส้นทางที่เหมาะสม
-  console.log(`[StoryService] Adaptive Story is ${isEnabled ? 'enabled' : 'disabled'} (not implemented in JSON version)`);
-  console.log(`[StoryService] Player Stats for Adaptation:`, playerStats);
-  return isEnabled;
-};
-
-// --- ฟังก์ชันหลัก ---
 export const initializeStory = async (playerName) => {
   try {
     console.log(`[StoryService] Initializing story for player: ${playerName} (from JSON)`);
-    
     const startSceneKey = "temple_courtyard_morning";
     let startScene = storyData.scenes[startSceneKey];
 
@@ -502,7 +467,6 @@ export const initializeStory = async (playerName) => {
     }
 
     const storyText = startScene.text.replace('{playerName}', playerName);
-
     console.log('[StoryService] Successfully loaded initial story from JSON');
     return {
       text: storyText,
@@ -520,10 +484,9 @@ export const initializeStory = async (playerName) => {
   }
 };
 
-export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0, items: [] }) => {
+export const makeChoice = async (choiceId, currentContext) => {
   try {
-    console.log(`[StoryService] Making choice: ${choiceId} (from JSON) for player stats:`, playerStats);
-    
+    console.log(`[StoryService] Making choice: ${choiceId} (from JSON)`);
     const currentPlayerName = currentContext.playerName;
     const currentSceneKey = currentContext.scene;
 
@@ -532,13 +495,11 @@ export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0
     }
 
     const currentScene = storyData.scenes[currentSceneKey];
-
     if (!currentScene) {
       throw new Error(`Current scene '${currentSceneKey}' not found in JSON data.`);
     }
 
     const selectedChoice = currentScene.choices.find(choice => choice.id === choiceId);
-
     if (!selectedChoice) {
       console.warn(`[StoryService] Choice '${choiceId}' not found in scene '${currentSceneKey}'.`);
       return {
@@ -554,39 +515,19 @@ export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0
       };
     }
 
-    // ตรวจสอบเงื่อนไขของตัวเลือก
-    const reqItems = selectedChoice.requiredItems || [];
-    const reqXp = selectedChoice.requiredXp || 0;
-    if (!hasRequiredItems(playerStats.items, reqItems) || playerStats.xp < reqXp) {
-        console.warn(`[StoryService] Player does not meet requirements for choice '${choiceId}'.`);
-        return {
-          story: {
-            text: currentScene.text.replace('{playerName}', currentPlayerName) + "\n\n(คุณยังไม่มีคุณสมบัติที่จำเป็นสำหรับตัวเลือกนี้)",
-            choices: currentScene.choices,
-            context: currentContext
-          },
-          stats: { xp: 0, items: [] },
-          gameEnded: false,
-          requirementNotMet: true
-        };
-    }
-
     const nextSceneKey = selectedChoice.nextScene;
-    
     if (!nextSceneKey) {
       console.warn(`[StoryService] Next scene key is null/undefined for choice '${choiceId}'. Ending game.`);
       return createEndingResult(selectedChoice, currentContext);
     }
 
     const nextSceneData = storyData.scenes[nextSceneKey];
-
     if (!nextSceneData) {
        console.warn(`[StoryService] Next scene '${nextSceneKey}' not found in JSON. Ending game.`);
        return createEndingResult(selectedChoice, currentContext);
     }
 
     const nextStoryText = nextSceneData.text.replace('{playerName}', currentPlayerName);
-
     const isEndingScene = nextSceneData.context?.isEnding;
     let gameEnded = false;
     let endingKey = null;
@@ -597,13 +538,11 @@ export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0
         console.log(`[StoryService] Game ending triggered. Key: ${endingKey}`);
     }
 
-    const filteredChoices = filterChoicesByRequirements(nextSceneData.choices, playerStats);
-
     console.log('[StoryService] Successfully processed choice from JSON');
     return {
       story: {
         text: nextStoryText,
-        choices: filteredChoices,
+        choices: nextSceneData.choices,
         context: { ...nextSceneData.context, playerName: currentPlayerName, previousChoice: choiceId }
       },
       stats: selectedChoice.stats || { xp: 0, items: [] },
@@ -627,12 +566,11 @@ export const makeChoice = async (choiceId, currentContext, playerStats = { xp: 0
   }
 };
 
-// --- ฟังก์ชันช่วยสำหรับการจบเกม ---
 const createEndingResult = (selectedChoice, currentContext) => {
-    const endingKey = currentContext.previousChoice === 'feel_proud_and_fulfilled' ? 'good_knowledgeable' : 
-                      currentContext.previousChoice === 'feel_bored_and_wish_to_play' ? 'bad_playful' : 
+    const endingKey = currentContext.previousChoice === 'feel_proud_and_fulfilled' ? 'good_knowledgeable' :
+                      currentContext.previousChoice === 'feel_bored_and_wish_to_play' ? 'bad_playful' :
                       'neutral_participated';
-    
+
     return {
         story: {
           text: "เรื่องราวดำเนินไป... และวันสงกรานต์ก็ใกล้จะจบลง",
