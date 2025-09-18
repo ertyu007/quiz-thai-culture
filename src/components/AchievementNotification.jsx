@@ -5,7 +5,7 @@ const AchievementNotification = ({ achievement, onClose }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 5000);
+    }, 5000); // ปิดอัตโนมัติหลัง 5 วินาที
 
     return () => clearTimeout(timer);
   }, [onClose]);
@@ -19,7 +19,7 @@ const AchievementNotification = ({ achievement, onClose }) => {
           <p className="font-semibold">{achievement.title}</p>
           <p className="text-sm opacity-90">{achievement.description}</p>
         </div>
-        <button
+        <button 
           onClick={onClose}
           className="ml-4 text-white hover:text-gray-200 self-start"
           aria-label="ปิด"

@@ -1,5 +1,5 @@
 // src/services/gameService.js
-import storyData from '../data/story.json';
+import storyData from '../data/thaiGameStory.json';
 
 const saveToLocalStorage = (key, data) => {
   try {

@@ -430,12 +430,11 @@
 // บริการสำหรับจัดการเนื้อเรื่องโดยใช้ข้อมูลจากไฟล์ JSON
 // src/services/storyService.js
 
-
 // src/services/storyService.js
-import storyData from '../data/story.json';
+import storyData from '../data/thaiGameStory.json';
 
 const DEFAULT_OPENING_STORY = {
-  text: "สวัสดี {playerName}! ยินดีต้อนรับสู่วันสงกรานต์ที่วัดแห่งหนึ่ง...",
+  text: "สวัสดี {playerName}! ยินดีต้องรับสู่วันสงกรานต์ที่วัดแห่งหนึ่ง...",
   choices: [
     { id: 'default_choice_1', text: "เริ่มผจญภัย", nextScene: "temple_market_morning" },
     { id: 'default_choice_2', text: "ไปช่วยงานวัด", nextScene: "temple_market_morning" }
@@ -484,6 +483,14 @@ export const initializeStory = async (playerName) => {
   }
 };
 
+export const prepareAdaptiveStory = (isEnabled, playerStats) => {
+  // ในเวอร์ชัน JSON นี้ เราไม่ได้ใช้ adaptive story จริงๆ
+  // แต่สามารถเตรียม logic ไว้สำหรับเวอร์ชันอนาคต
+  console.log(`[StoryService] Adaptive Story is ${isEnabled ? 'enabled' : 'disabled'} (not implemented in JSON version)`);
+  console.log(`[StoryService] Player Stats for Adaptation:`, playerStats);
+  return isEnabled;
+};
+
 export const makeChoice = async (choiceId, currentContext) => {
   try {
     console.log(`[StoryService] Making choice: ${choiceId} (from JSON)`);
@@ -515,27 +522,67 @@ export const makeChoice = async (choiceId, currentContext) => {
       };
     }
 
+    // ตรวจสอบเงื่อนไขของตัวเลือก (ถ้ามี)
+    const reqItems = selectedChoice.requiredItems || [];
+    const reqXp = selectedChoice.requiredXp || 0;
+    const playerItems = currentContext.playerItems || []; // ดึงไอเท็มจาก context
+    const playerXp = currentContext.playerXp || 0; // ดึง XP จาก context
+    const hasRequiredItems = reqItems.every(item => playerItems.includes(item));
+    if (!hasRequiredItems || playerXp < reqXp) {
+      console.warn(`[StoryService] Player does not meet requirements for choice '${choiceId}'.`);
+      return {
+        story: {
+          text: currentScene.text.replace('{playerName}', currentPlayerName) + "\n\n(คุณยังไม่มีคุณสมบัติที่จำเป็นสำหรับตัวเลือกนี้)",
+          choices: currentScene.choices,
+          context: currentContext
+        },
+        stats: { xp: 0, items: [] },
+        gameEnded: false,
+        requirementNotMet: true
+      };
+    }
+
     const nextSceneKey = selectedChoice.nextScene;
+
     if (!nextSceneKey) {
       console.warn(`[StoryService] Next scene key is null/undefined for choice '${choiceId}'. Ending game.`);
       return createEndingResult(selectedChoice, currentContext);
     }
 
     const nextSceneData = storyData.scenes[nextSceneKey];
+
     if (!nextSceneData) {
-       console.warn(`[StoryService] Next scene '${nextSceneKey}' not found in JSON. Ending game.`);
-       return createEndingResult(selectedChoice, currentContext);
+      console.warn(`[StoryService] Next scene '${nextSceneKey}' not found in JSON. Ending game.`);
+      return createEndingResult(selectedChoice, currentContext);
     }
 
     const nextStoryText = nextSceneData.text.replace('{playerName}', currentPlayerName);
+
     const isEndingScene = nextSceneData.context?.isEnding;
     let gameEnded = false;
     let endingKey = null;
 
     if (isEndingScene) {
-        gameEnded = true;
-        endingKey = nextSceneData.context.endingKey;
-        console.log(`[StoryService] Game ending triggered. Key: ${endingKey}`);
+      gameEnded = true;
+      endingKey = nextSceneData.context.endingKey;
+      console.log(`[StoryService] Game ending triggered. Key: ${endingKey}`);
+    }
+
+    // ถ้าเป็น Mini-game Scene
+    if (nextSceneData.context?.miniGameType) {
+      console.log(`[StoryService] Mini-game scene detected: ${nextSceneData.context.miniGameType}`);
+      return {
+        story: {
+          text: nextStoryText, // อาจว่างไว้ให้ Component จัดการ
+          choices: [], // ไม่มีตัวเลือกใน Mini-game
+          context: { ...nextSceneData.context, playerName: currentPlayerName, previousChoice: choiceId }
+        },
+        stats: selectedChoice.stats || { xp: 0, items: [] },
+        gameEnded: gameEnded,
+        endingKey: endingKey,
+        isMiniGame: true,
+        miniGameType: nextSceneData.context.miniGameType
+      };
     }
 
     console.log('[StoryService] Successfully processed choice from JSON');
@@ -567,18 +614,24 @@ export const makeChoice = async (choiceId, currentContext) => {
 };
 
 const createEndingResult = (selectedChoice, currentContext) => {
-    const endingKey = currentContext.previousChoice === 'feel_proud_and_fulfilled' ? 'good_knowledgeable' :
-                      currentContext.previousChoice === 'feel_bored_and_wish_to_play' ? 'bad_playful' :
-                      'neutral_participated';
+  const endingKey = currentContext.previousChoice === 'feel_proud_and_fulfilled' ? 'good_knowledgeable' :
+    currentContext.previousChoice === 'feel_bored_and_wish_to_play' ? 'bad_playful' :
+      'neutral_participated';
 
-    return {
-        story: {
-          text: "เรื่องราวดำเนินไป... และวันสงกรานต์ก็ใกล้จะจบลง",
-          choices: [],
-          context: { ...currentContext, previousChoice: selectedChoice.id }
-        },
-        stats: selectedChoice.stats || { xp: 0, items: [] },
-        gameEnded: true,
-        endingKey: endingKey
-      };
+  return {
+    story: {
+      text: "เรื่องราวดำเนินไป... และวันสงกรานต์ก็ใกล้จะจบลง",
+      choices: [],
+      context: { ...currentContext, previousChoice: selectedChoice.id }
+    },
+    stats: selectedChoice.stats || { xp: 0, items: [] },
+    gameEnded: true,
+    endingKey: endingKey
+  };
+};
+
+// --- ฟังก์ชันสำหรับเตรียมระบบ Setting ---
+export const prepareHumorMode = (isEnabled) => {
+  console.log(`[StoryService] Humor Mode is ${isEnabled ? 'enabled' : 'disabled'}`);
+  return isEnabled;
 };
