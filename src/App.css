@@ -1,20 +1,48 @@
-/* src/App.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ใน App.css */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 
-/* ตัวอย่าง animation สำหรับ notification */
-@keyframes fadeInDown {
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Animation สำหรับ Alert */
+@keyframes slideIn {
   from {
+    transform: translateX(100%);
     opacity: 0;
-    transform: translate3d(0, -100%, 0);
   }
   to {
+    transform: translateX(0);
     opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 }
 
-.animate-fadeInDown {
-  animation: fadeInDown 0.5s ease-out forwards;
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.alert-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+.alert-slide-out {
+  animation: slideOut 0.3s ease-in;
+}
+
+/* สำหรับ mobile responsive */
+@media (max-width: 640px) {
+  .alert-mobile {
+    margin: 0 1rem;
+    max-width: calc(100vw - 2rem);
+  }
 }
